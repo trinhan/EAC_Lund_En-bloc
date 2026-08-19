@@ -1,0 +1,10 @@
+bookdown::gitbook:
+  css: style.css
+  includes:
+    in_header: header.html
+  config:
+    toc:
+      before: |
+        <li><a href="./">EAC Lund En-bloc</a></li>
+      collapse: section
+    sharing: no

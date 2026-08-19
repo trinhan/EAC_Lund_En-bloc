@@ -1,0 +1,154 @@
+# Evaluate Consenus Driver Events
+
+Below, we condense the information present from multiple sources:
+
+Oncogene Prediction:
+
+* mutpanning 
+* oncodriveFML
+
+
+Firstly, tidy up information in the FinalSomaticList
+
+```{r review-existing}
+## double check whether the results from oncokb is consistent
+t2 <- which(
+  OncokbSNV$ONCOGENIC %in% c("Likely Oncogenic", "Oncogenic") |
+    FinalSomaticList$CGI_oncogenic_class %in% c("known driver", "predicted") |
+    FinalSomaticList$MutPanning == "driver" |
+    !is.na(FinalSomaticList$Oncodrive) |
+    !is.na(FinalSomaticList$CMC)
+)
+```
+
+
+We identify specific mutational Driver Events as:
+
+* indicated in Oncokb (oncogenic or likely oncogenic) OR CGI oncogenic Class (predicted or known) or CMC non-0 score
+* CGI oncogenic Class (non-protein affecting) AND Consequence 5'UTR AND OncodriveFML promoter as predicted Promoter affecting
+
+The type of variant (activating or LoF) is indicated by:
+
+* Oncokb or CGI role. If neither is available, use CMC
+* Potential Drivers which do not have a predicted outcome are indicated as unknonw
+
+```{r define-drive}
+## List whether a variant is a driver
+FinalSomaticList$DriverStatus <- ifelse(FinalSomaticList$CGI_oncogenic_class %in% c("known driver", "predicted") | FinalSomaticList$CMC > 0 | FinalSomaticList$ONCOKB_class %in% c("Likely Oncogenic", "Oncogenic"), "Driver", NA)
+
+# OLD
+# FinalSomaticList$DriverStatus=ifelse(FinalSomaticList$CGI_oncogenic_class%in%c("known driver", "predicted")|FinalSomaticList$CGI_role%in%c("Act", "LoF")|FinalSomaticList$ONCOKB_class%in%c("Likely Oncogenic", "Oncogenic"), "Driver", NA)
+
+FinalSomaticList <- FinalSomaticList %>%
+  mutate(DriverEffect = case_when(
+    # Specific annotations take priority
+    CGI_role == "LoF" | ONCOKB_effect %in% c("Loss-of-function", "Likely Loss-of-function") ~ "LoF",
+    CGI_role == "Act" | ONCOKB_effect %in% c("Gain-of-function", "Likely Gain-of-function") ~ "GoF",
+
+    # Gene-level defaults as fallback
+    TSG_OCG == "tsg" ~ "LoF",
+    TSG_OCG == "onc" ~ "GoF",
+
+    # Generic driver status as last resort
+    DriverStatus == "Driver" ~ "Unknown",
+
+    # Default for non-drivers
+    TRUE ~ NA_character_
+  ))
+```
+
+```{r}
+DT::datatable(FinalSomaticList[t2, ], rownames = F, class = "cell-border stripe", extensions = "Buttons", options = list(dom = "Bfrtip", buttons = c("csv", "excel")))
+```
+
+Create a new table specifically for driver mutations, and condense them such that we can easily visualise them. This section also uses CNV changes (output from Oncokb)
+
+```{r find-drivers}
+# Filter SNVs based on the Somatic List
+Driver1 <- FinalSomaticList %>%
+  filter(DriverStatus == "Driver") %>%
+  select(L1 = Tumor_Sample_Barcode, Gene = Hugo_Symbol, Mut = HGVSp_Short, loh, gene_loh, Driver = DriverStatus, Cons = DriverEffect) %>%
+  mutate(Vtype = "SNV", value = paste(Gene, Mut), gene_loh = as.character(gene_loh))
+
+# Extract CNV information from Oncokb
+Driver2 <- strsplit(OncokbDFs$ONCOGENIC_MUTATIONS, ";")
+names(Driver2) <- OncokbDFs$SAMPLE_ID
+DriverCNV <- melt(Driver2) %>%
+  mutate(
+    Vtype = case_when(
+      grepl("Del", value) ~ "DEL",
+      grepl("Amp", value) ~ "AMP",
+      TRUE ~ "SNV"
+    ),
+    Gene = sub(" .*", "", value),
+    Mut = Vtype,
+    Driver = "CNV",
+    loh = "",
+    gene_loh = "",
+    Cons = Vtype
+  ) %>%
+  filter(Vtype %in% c("DEL", "AMP"))
+
+# Combine SNV and CNV events
+DriverEvents <- bind_rows(Driver1, DriverCNV) %>%
+  mutate(Alive_edited = SampleIDs$Alive_edited[match(L1, SampleIDs$SAMPLE_ID)])
+
+## Consolidate information for genes that have both SNV and CNV in the same sample
+DriverEvents <- DriverEvents %>%
+  group_by(L1, Gene) %>%
+  mutate(
+    any_cnv = any(Vtype %in% c("AMP", "DEL")),
+    cnv_vtypes = paste(unique(Vtype[Vtype %in% c("AMP", "DEL")]), collapse = " "),
+    cnv_cons = paste(unique(Cons[Vtype %in% c("AMP", "DEL")]), collapse = " "),
+    Vtype = if_else(Vtype == "SNV" & any_cnv, paste(Vtype, cnv_vtypes), Vtype),
+    Cons = if_else(Vtype == "SNV" & any_cnv, paste(Cons, cnv_cons), Cons)
+  ) %>%
+  ungroup() %>%
+  select(-any_cnv, -cnv_vtypes, -cnv_cons)
+```
+
+Also add LOH information if available
+
+```{r add-loh}
+# Add LOH information
+# Use gene_loh as fallback if loh is NA
+DriverEvents$loh_combined <- ifelse(!is.na(DriverEvents$loh) & DriverEvents$loh != "", DriverEvents$loh, DriverEvents$gene_loh)
+
+DriverEvents$ConsB <- trimws(paste(DriverEvents$Cons, ifelse(!is.na(DriverEvents$loh_combined) & DriverEvents$loh_combined != "" & DriverEvents$loh_combined != "FALSE", "LOH", "")))
+```
+
+```{r}
+ggplot(DriverEvents, aes(x = Gene, y = L1, fill = Cons)) +
+  geom_tile() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1), axis.text.y = element_text(color = S2$ERautocol)) +
+  ggtitle("Overview of drivers") +
+  facet_grid(Alive_edited ~ ., space = "free", scale = "free")
+```
+
+Write the drivers to file
+```{r}
+write.csv(DriverEvents, file = "output/05b_DriverEvents.csv", row.names = F)
+```
+
+
+
+Check for statistical differences? Run a chisq test across all of these?
+
+```{r chisq-variants}
+tempB <- acast(unique(DriverEvents[, c("Gene", "Alive_edited", "L1")]), Gene ~ Alive_edited)
+Nsamp <- table(SampleIDs$Alive_edited[-which(is.na(SampleIDs$SAMPLE_ID))])
+
+ChiSqRes <- rep(NA, nrow(tempB))
+names(ChiSqRes) <- rownames(tempB)
+
+for (i in 1:nrow(tempB)) {
+  lx1 <- rbind(tempB[i, ], Nsamp - tempB[i, ])
+  ChiSqRes[i] <- fisher.test(lx1)$p.value
+}
+
+mx <- ChiSqRes[which(ChiSqRes < 0.1)]
+mx
+
+tempB[names(mx), ]
+```
+

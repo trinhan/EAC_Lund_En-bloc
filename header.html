@@ -1,0 +1,21 @@
+<script type="text/javascript">
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none' : 'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+  var elem = document.getElementById("myButton1");
+  if (elem.value === "Hide Code") elem.value = "Show Code";
+  else elem.value = "Hide Code";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Code" id="myButton1" style="position: fixed; top: 10px; right: 10px; z-index: 200"></input>')
+</script>

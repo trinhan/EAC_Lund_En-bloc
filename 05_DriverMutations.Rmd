@@ -1,0 +1,407 @@
+# Annotation of Driver Mutations
+
+A number of different sources were used to identify driver mutations:
+
+1. [MutPanning](https://www.genepattern.org/modules/docs/MutPanning#gsc.tab=0) : prediction of driver mutation based on frequency of a variant in a non-synonymous region compared to background noise for a given gene
+2. [OncodriveFML](http://bbglab.irbbarcelona.org/oncodrivefml/home): prediction of driver mutation based on frequency across coding and non-coding regions
+3. [CGI annotations](https://www.cancergenomeinterpreter.org/) : to add information of predicted oncogenicity, role (activating vs lof) and potential drugs which can contribute to response
+4. [Cosmic Based annotations for treatment](https://cancer.sanger.ac.uk/cosmic/drug_resistance) and CMC consensus Mutations
+5. [oncokb](https://github.com/oncokb/oncokb-annotator): MSK resource listing known driver mutations and drug indications in disease specific fashion
+
+## Mutpanning
+
+The following code implements processing such that the output `.maf` file can be loaded into mutpanning for detection of driver events. 
+
+Note that the input requires:
+- a liftover of consequence annotations (see function `map_consequence_annotations`)
+- an end position and annotation as SNP, DEL, INS
+- onco tree metadata annotation 
+
+```{r mutpanning-save}
+# save for mut panning
+# Process somatic variants
+SaveOutput <- process_variants_mutpanning(FinalSomaticList, include_hgvsp = TRUE)
+SaveOutput <- format_maf_output(SaveOutput, include_hgvsp = TRUE)
+
+# Process germline variants
+SaveOutputG <- process_variants_mutpanning(FinalGermlineList, include_hgvsp = FALSE)
+SaveOutputG <- format_maf_output(SaveOutputG, include_hgvsp = FALSE)
+
+# Write somatic mutations to file
+write.table( SaveOutput, file = paste0("output/Oesoph_somatic_mutations_for_mutpannning_", Sys.Date(), ".maf"),
+  sep = "\t",row.names = FALSE,quote = FALSE
+)
+
+# Write somatic mutations to file
+write.table( SaveOutputG, file = paste0("output/Oesoph_germline_mutations_for_mutpannning_", Sys.Date(), ".maf"),
+  sep = "\t",row.names = FALSE,quote = FALSE
+)
+
+# Create and write sample metadata
+sampleData <- create_sample_metadata(SampleIDs)
+write.table(sampleData,file = paste0("output/Oesoph_somatic_sample_for_mutpannning_", Sys.Date(), ".txt"),
+  sep = "\t",row.names = FALSE, quote = FALSE
+)
+
+```
+
+Below are the top driver candidates from analysis using mutpanning:
+
+```{r}
+mutPanningRes=read.delim(AllDat$DriverMuts$MutPanning, header=T, sep="\t")
+head(mutPanningRes)
+```
+
+QQ plot for mutpanning, indicating the top significant predicted driver genes
+
+```{r}
+Pvals=-log10(mutPanningRes$Significance+0.01)
+Pvals[which(Pvals<0)]=0
+GeneNames=mutPanningRes$Name
+GeneNames[which(Pvals<1)]=NA
+dfB=data.frame(name=GeneNames, x=Pvals)
+
+ggplot(data = dfB, aes(sample = x)) + geom_qq() + geom_text_repel(label=dfB$name[order(dfB$x)], stat="qq") + stat_qq_line()+xlab("theoretical quantiles")+ylab("sample quantiles")
+```
+
+We can add this information into the FinalSomaticList object. Any gene which is in the MutPanning list can be annotated as a driver event
+
+```{r}
+FinalSomaticList$MutPanning=NA
+FinalSomaticList$MutPanning[which(FinalSomaticList$Hugo_Symbol%in%GeneNames)]="driver"
+```
+
+Print out a summary of the number of driver genes:
+
+```{r}
+table(FinalSomaticList$MutPanning, useNA="always")
+```
+
+## OncodriveFML
+
+Oncodrive detects potential coding and promoter variants. 
+
+```{r}
+onocoFML1=read.delim(AllDat$DriverMuts$CodingFML)
+onocoFML2=read.delim(AllDat$DriverMuts$PromoterFML)
+tempD=rbind(cbind(onocoFML1, type="Coding"), cbind(onocoFML2, type="Promoter"))
+test1=read.delim(AllDat$Annot$Ens2Hugo, sep="\t")
+M1=test1$Approved.symbol[match(tempD$GENE_ID, test1$Ensembl.gene.ID)]
+tempD$Approved.symbol=M1
+
+DT::datatable(tempD)
+```
+
+A similar analysis creating qq-plots for oncodrive FML promoter and coding regions indicating significant genes:
+
+![Promoter rankings](`r AllDat$DriverMuts$PromoterFMLPlot`)
+
+![Coding rankings](`r AllDat$DriverMuts$CodingFMLPlot`)
+
+<!--
+DO THIS LATER
+
+We can Also plot pvalues between mutpanning and oncodriveFML to check for consistency in estimating driver events:
+
+```{r}
+mx2=match(tempD$SYMBOL, mutPanningRes$Name)
+mx3=match(tempD$Approved.symbol, mutPanningRes$Name)
+mx2[which(is.na(mx2))]=mx3[which(is.na(mx2))]
+
+mutList=mutPanningRes[mx2, ]
+
+tempD$Symbol2=tempD$Approved.symbol
+tempD$Symbol2[which(tempD$P_VALUE>0.01 & mutList$Significance>0.05)]=NA
+
+plot(-log10(mutList$Significance), -log10(tempD$P_VALUE), col=factor(tempD$type), xlab="mutPanning", ylab="oncodriveFML", pch=20)
+text(-log10(mutList$Significance)+0.05, -log10(tempD$P_VALUE)+0.05, tempD$Symbol2,cex=0.5)
+```
+
+Report a summary of which of these genes are potential drivers
+
+```{r}
+head(tempD[which(!is.na(tempD$Symbol2)), ])
+## get the list of genes which are in either mutpanning or oncodriveFML
+sigGenes=na.omit(tempD$Symbol2)
+```
+
+-->
+
+Select the genes which have a Pvalue less than 0.1 and list them as potential Oncodrive driver events
+
+```{r}
+OncodriveSig=tempD[which(tempD$P_VALUE<0.1), c("Approved.symbol", "type")]
+FinalSomaticList$Oncodrive=NA
+FinalSomaticList$Oncodrive[which(FinalSomaticList$Hugo_Symbol%in%OncodriveSig$Approved.symbol[OncodriveSig$type=="Coding"])]="Coding"
+FinalSomaticList$Oncodrive[which(FinalSomaticList$Hugo_Symbol%in%OncodriveSig$Approved.symbol[OncodriveSig$type=="Promoter"])]="Promoter"
+```
+
+Print a table of the number of Coding and Promoter genes:
+
+```{r}
+table(FinalSomaticList$Oncodrive, useNA="always")
+```
+
+## CGI annotations
+
+- [CGI annotations](https://www.cancergenomeinterpreter.org/) : to add information of predicted oncogenicity, role (activating vs lof) and potential drugs which can contribute to response. Note this is on a mutation specific level, rather than gene level using mutpanning and OncodriveFML
+
+Below is the mutation information:
+
+```{r}
+SNVCGI=read.delim(AllDat$CGI$snv, sep="\t")
+DT::datatable(SNVCGI)
+```
+
+And the drug information
+
+```{r}
+Drug=read.delim(AllDat$CGI$drug, sep="\t")
+Drug$Gene2=sapply(strsplit(Drug$SAMPLE_ALTERATION, " "), function(x) x[1])
+DT::datatable(Drug)
+```
+
+Append this information into the FinalSomaticList on a specific variant level:
+
+```{r}
+# Create lookup key and match CGI data
+lookup_key <- paste(FinalSomaticList$CHROM, FinalSomaticList$POS)
+cgi_key <- paste(SNVCGI$CHR, SNVCGI$POS_HG19)
+match_idx <- match(lookup_key, cgi_key)
+
+# Map CGI annotations
+FinalSomaticList$CGI_oncogenic_class <- SNVCGI$ONCOGENIC_CLASSIFICATION[match_idx]
+FinalSomaticList$CGI_role <- SNVCGI$CONSENSUS_ROLE[match_idx]
+
+# Identify variants to profile
+has_role_and_protein_affecting <- which(
+  FinalSomaticList$CGI_role != "" & 
+  FinalSomaticList$CGI_oncogenic_class != "non-protein affecting"
+)
+
+is_driver_or_predicted <- which(
+  FinalSomaticList$CGI_oncogenic_class %in% c("known driver", "predicted")
+)
+
+profile_indices <- unique(c(has_role_and_protein_affecting, is_driver_or_predicted))
+
+# Initialize drug response columns
+FinalSomaticList$CGIResistance <- NA
+FinalSomaticList$CGIResponse <- NA
+
+# Process drug associations
+for (i in profile_indices) {
+  # Filter drugs for this variant
+  variant_drugs <- Drug[
+    Drug$SAMPLE == FinalSomaticList$Tumor_Sample_Barcode[i] & 
+    Drug$Gene2 == FinalSomaticList$Hugo_Symbol[i],
+  ]
+  
+  # Get complete matches for cancer type
+  complete_matches <- variant_drugs[
+    variant_drugs$CTYPE_MATCH == "YES" & 
+    variant_drugs$ALTERATION_MATCH == "complete",
+  ]
+  
+  if (nrow(complete_matches) > 0) {
+    # Extract responsive and resistant drugs
+    responsive_drugs <- unique(complete_matches$DRUGS[complete_matches$RESPONSE == "Responsive"])
+    resistant_drugs <- unique(complete_matches$DRUGS[complete_matches$RESPONSE == "Resistant"])
+    
+    FinalSomaticList$CGIResponse[i] <- paste(responsive_drugs, collapse = " ")
+    FinalSomaticList$CGIResistance[i] <- paste(resistant_drugs, collapse = " ")
+  }
+}
+```
+
+<!--
+```{r, eval=F}
+## The old code to remove
+Lx1=match(paste(FinalSomaticList$CHROM, FinalSomaticList$POS), paste(SNVCGI$CHR, SNVCGI$POS_HG19))
+
+FinalSomaticList$CGI_oncogenic_class=SNVCGI$ONCOGENIC_CLASSIFICATION[Lx1]
+FinalSomaticList$CGI_role=SNVCGI$CONSENSUS_ROLE[Lx1]
+
+Tx2=which(FinalSomaticList$CGI_role!="" & FinalSomaticList$CGI_oncogenic_class!="non-protein affecting")
+Tx3=which(FinalSomaticList$CGI_oncogenic_class%in% c("known driver", "predicted"))
+ProfileThese=unique(c(Tx2,Tx3))
+
+FinalSomaticList$CGIResistance=NA
+FinalSomaticList$CGIResponse=NA
+
+for (i in 1:length(ProfileThese)){
+  temp2=Drug[which(Drug$SAMPLE==FinalSomaticList$Tumor_Sample_Barcode[ProfileThese[i]] & 
+                     Drug$Gene2==FinalSomaticList$Hugo_Symbol[ProfileThese[i]]), ]
+  la=which(temp2$CTYPE_MATCH=="YES" & temp2$ALTERATION_MATCH=="complete")
+  if (length(la)>0) {
+    temp2b=temp2[la, ]
+    resp=paste(unique(temp2b$DRUGS[which(temp2b$RESPONSE=="Responsive")]), collapse=" ")
+    resist=paste(unique(temp2b$DRUGS[which(temp2b$RESPONSE=="Resistant")]), collapse=" ")
+    FinalSomaticList$CGIResponse[ProfileThese[i]]=resp
+    FinalSomaticList$CGIResistance[ProfileThese[i]]=resist
+  }
+}
+```
+-->
+
+From this data base the predicted number of activating, loss of function and ambiguous variants are indicated below:
+
+```{r}
+table(FinalSomaticList$CGI_role)
+```
+
+We can also look at the output response information:
+
+```{r}
+table(FinalSomaticList$CGIResponse)
+```
+
+And resistance information
+
+```{r}
+table(FinalSomaticList$CGIResponse)
+```
+
+## Cosmic
+
+There are two pieces of information to add here. 
+
+- [Cosmic Based annotations for treatment](https://cancer.sanger.ac.uk/cosmic/drug_resistance): information on drug indications against specific mutations
+- [CMC mutational Census](https://cancer.sanger.ac.uk/cmc/home): consensus on driver mutations based on prevalence across 1500 cancer types
+
+```{r}
+# Read and prepare mutation data
+ResMut <- read.delim(AllDat$Annot$CosmicMut)
+ResMut$Symbol <- sub("_.*", "", ResMut$Gene.Name)  # Simpler than strsplit/sapply
+
+# Create variant keys for matching
+ResMut$variant_key <- paste(ResMut$Symbol, ResMut$AA.Mutation)
+FinalSomaticList$variant_key <- paste(FinalSomaticList$Hugo_Symbol, FinalSomaticList$HGVSp_Short)
+FinalGermlineList$variant_key <- paste(FinalGermlineList$Hugo_Symbol, FinalGermlineList$HGVSp_Short)
+
+# Match somatic variants and aggregate drug names
+somatic_matches <- match(ResMut$variant_key, FinalSomaticList$variant_key)
+matched_muts <- ResMut[!is.na(somatic_matches), c("variant_key", "Drug.Name")]
+
+# Aggregate drugs by variant (simpler than by/stack)
+drug_lookup <- aggregate(Drug.Name ~ variant_key, 
+                         data = matched_muts, 
+                         FUN = paste, 
+                         collapse = " ")
+
+# Add drugs to FinalSomaticList
+FinalSomaticList$CosmicDrugs <- drug_lookup$Drug.Name[match(FinalSomaticList$variant_key, drug_lookup$variant_key)]
+
+# Match germline variants
+germline_matches <- match(ResMut$variant_key, FinalGermlineList$variant_key)
+nxa <- which(!is.na(germline_matches))
+
+```
+
+
+<!--
+```{r, eval=F}
+ResMut=read.delim(AllDat$Annot$CosmicMut)
+ResMut$Symbol=sapply(strsplit(ResMut$Gene.Name, "_"), function(x) x[1])
+
+midx1=match(paste(ResMut$Symbol, ResMut$AA.Mutation), paste(FinalSomaticList$Hugo_Symbol, FinalSomaticList$HGVSp_Short))
+nxa=which(!is.na(midx1))
+Lx2=FinalSomaticList[unique(midx1[nxa]), ]
+
+mList=ResMut[nxa ,c("Symbol", "AA.Mutation", "Drug.Name")]
+mList=unique(mList)
+
+pasteVariants=stack(by(mList$Drug.Name,paste(mList$Symbol, mList$AA.Mutation),  paste, collapse=" "))
+
+FinalSomaticList$CosmicDrugs=NA
+FinalSomaticList$CosmicDrugs[unique(midx1[nxa])]=pasteVariants$values[match(paste(Lx2$Hugo_Symbol, Lx2$HGVSp_Short), pasteVariants$ind)]
+
+midx2=match(paste(ResMut$Symbol, ResMut$AA.Mutation), paste(FinalGermlineList$Hugo_Symbol, FinalGermlineList$HGVSp_Short))
+nxa=which(!is.na(midx2))
+```
+-->
+
+```{r cmc-load, cache=T}
+#load("annot/CancerMutCensus_LVL1-3.RData")
+load(AllDat$Annot$CancerMutCensusCache)
+```
+
+```{r}
+CMCv92short$hg37Start=sapply(strsplit( CMCv92short$Mutation.genome.position.GRCh37, ":"), function(x) x[2])
+CMCv92short$hg37Start=sapply(strsplit( CMCv92short$hg37Start, "-"), function(x) x[1])
+
+midx=match(paste(FinalSomaticList$Hugo_Symbol, FinalSomaticList$HGVSp_Short), paste(CMCv92short$GENE_NAME, CMCv92short$Mutation.AA))
+CMCv92shortf=CMCv92short[na.omit(midx), ]
+
+FinalSomaticList$CMC=NA
+FinalSomaticList$CMC[which(!is.na(midx))]=CMCv92shortf$MUTATION_SIGNIFICANCE_TIER
+FinalSomaticList$TSG_OCG=NA
+FinalSomaticList$TSG_OCG[which(!is.na(midx))]=ifelse(CMCv92shortf$ONC_TSG%in%c("oncogene", "oncogene, fusion"), "onc", "tsg")
+```
+
+The number of variants which land in a CMC tier (1 being highest) is indicated below:
+
+```{r}
+table(FinalSomaticList$CMC)
+```
+
+Similarly, we can report whether they are known tumour suppressors or oncogenes:
+
+```{r}
+table(FinalSomaticList$TSG_OCG)
+```
+
+```{r}
+DT::datatable(FinalSomaticList[1:100, ], rownames=F, class='cell-border stripe', extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+```
+
+## Oncokb
+
+- [oncokb](https://github.com/oncokb/oncokb-annotator): MSK resource for known oncogenes and drug indications agains them
+
+To Do: Arrange genes in order of frequency in good vs bad response?
+
+```{r addoncokb}
+OncokbDFs=read.delim(AllDat$OncokbAnnotations, sep="\t")
+##AllDat$OncokbAnnotations
+OncokbSNV=read.delim(AllDat$DriverMuts$SNVFML, sep="\t")
+
+# create variant key match
+FinalSomaticList$variant_key <- variant_key(FinalSomaticList)
+OncokbSNV$variant_key <- variant_key(OncokbSNV) #paste(OncokbSNV$Chromosome, OncokbSNV$Start_Position, OncokbSNV$Tumor_Sample_Barcode, sep=":")
+match_idx <- match(FinalSomaticList$variant_key, OncokbSNV$variant_key)
+
+# Initialize columns
+FinalSomaticList$ONCOKB_class  <- NA
+FinalSomaticList$ONCOKB_effect <- NA
+FinalSomaticList$OncokbDrugs   <- NA
+FinalSomaticList$Drugs         <- NA
+
+# Collapse LEVEL_ columns per variant
+ LevelDF=OncokbSNV[ , grep("LEVEL_", colnames(OncokbSNV))]
+ LevelDFCOll=apply(LevelDF, 1 , paste , collapse = "-" )
+ LevelDFCOll=gsub("NA-", "", LevelDFCOll)
+ LevelDFCOll=gsub("[-]+NA", "", LevelDFCOll)
+ names(LevelDFCOll)=OncokbSNV$variant_key
+ 
+ 
+ # Fill in OncoKB annotations for matching variants
+FinalSomaticList$ONCOKB_class[!is.na(match_idx)]  <- OncokbSNV$ONCOGENIC[match_idx[!is.na(match_idx)]]
+FinalSomaticList$ONCOKB_class[FinalSomaticList$ONCOKB_class == "Unknown"]   <- NA
+
+FinalSomaticList$ONCOKB_effect[!is.na(match_idx)] <- OncokbSNV$MUTATION_EFFECT[match_idx[!is.na(match_idx)]]
+FinalSomaticList$ONCOKB_effect[FinalSomaticList$ONCOKB_effect == "Unknown"] <- NA
+
+FinalSomaticList$OncokbDrugs[!is.na(match_idx)] <- LevelDFCOll[match_idx[!is.na(match_idx)]]
+# Combine with CosmicDrugs if available
+ndx <- which(!is.na(FinalSomaticList$OncokbDrugs))
+FinalSomaticList$Drugs[ndx] <- paste(FinalSomaticList$CosmicDrugs[ndx], FinalSomaticList$OncokbDrugs[ndx])
+```
+
+Below, print out the oncogenic and mutation effect information
+
+```{r}
+table(OncokbSNV$ONCOGENIC)
+table(OncokbSNV$MUTATION_EFFECT)
+```
+

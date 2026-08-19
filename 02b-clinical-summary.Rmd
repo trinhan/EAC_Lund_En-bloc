@@ -1,0 +1,319 @@
+# Clinical Summary
+
+## Summary Table of Clinical characteristics:
+
+Below is a summary of the clinical characteristics of the cohort: Total N=`r nrow(SampleIDs)`
+
+Note that Sample 59 was not successfully sequenced, but kept in the samples list below.
+
+```{r clintable}
+t1 <- stack(pinfo["Purity", match(SampleIDs$SAMPLE_ID, colnames(pinfo))])
+SampleIDs$Purity <- t1$values[match(SampleIDs$SAMPLE_ID, t1$ind)]
+
+S2 <- SampleIDs[order(SampleIDs$Follow.up.Survival..months.), ]
+S2$Name <- factor(S2$Name, levels = S2$Name)
+S2$Age2 <- cut(S2$Age.at.op, c(45, 60, 70, 80, 90), labels = c("40-60", "60-70", "70-80", "80+"))
+
+## Summarise information for later analysis
+a1 <- quantile(S2$Age.at.op, c(0.025, 0.5, 0.975))
+a2 <- table(S2$Gender.Male.1..F.0)
+a3 <- table(S2$Cancer.Location.By.Pathologist)
+a4 <- table(S2$Diagnosis)
+a5 <- table(S2$Grade)
+a6 <- table(S2$Stage)
+a7 <- table(S2$pT)
+a8 <- table(S2$pN)
+a9 <- table(S2$pM)
+
+a10 <- table(S2$Alive)
+a10b <- quantile(S2$Follow.up.Survival..months., c(0.025, 0.5, 0.975), na.rm = T)
+a11 <- quantile(S2$LN.Ratio, c(0.025, 0.5, 0.975))
+
+a13 <- table(S2$Alive_edited)
+```
+
+ Feature| Levels | Value | 95\% CI | \% Cohort
+ -------|--------|-------|------- |------
+Age | | `r a1[2]`| (`r a1[1]`-`r a1[3]`)|---
+Sex| F |`r a2[1]`| |`r a2[1]/sum(a2)`
+ -| M |`r a2[2]`| |`r a2[2]/sum(a2)`
+Location | `r names(a3)[1]` |`r a3[1]`| |`r round(a3[1]/nrow(S2), 2)`
+ -| `r names(a3)[2]` |`r a3[2]`| |`r round(a3[2]/nrow(S2),2)`
+Diagnosis | `r names(a4)` | `r a4`| | `r round(a4[1]/nrow(S2),2)`
+Grade | `r names(a5)[1]` |`r a5[1]` | |`r a5[1]/nrow(S2)`
+ -| `r names(a5)[2]` |`r a5[2]` | |`r a5[2]/nrow(S2)`
+  -| `r names(a5)[4]` |`r a5[4]` | |`r a5[4]/nrow(S2)`
+   -| `r names(a5)[3]` |`r a5[3]` | |`r a5[3]/nrow(S2)`
+Stage | `r names(a6)[1]` |`r a6[1]` | |`r a6[1]/sum(a4)`
+- | `r names(a6)[2]` |`r a6[2]` ||`r a6[2]/sum(a4)`
+ -  | `r names(a6)[3]` |`r a6[3]` | |`r a6[3]/sum(a4)`
+  -   | `r names(a6)[4]` |`r a6[4]` | |`r a6[4]/sum(a4)`
+T (Size) | `r names(a7)[1]` |`r a7[1]` |  |`r a7[1]/sum(a4)`
+- | `r names(a7)[2]` |`r a7[2]` |     |`r a7[2]/sum(a4)`
+ - | `r names(a7)[3]` |`r a7[3]` |    |`r a7[3]/sum(a4)` 
+  - | `r names(a7)[4]` |`r a7[4]` |    |`r a7[4]/sum(a4)` 
+N (Nodes) | `r names(a8)[1]` |`r a8[1]` | |`r a8[1]/sum(a4)`     
+- | `r names(a8)[2]` |`r a8[2]` | |`r a8[2]/sum(a4)`    
+ - | `r names(a8)[3]` |`r a8[3]` | |`r a8[3]/sum(a4)`     
+  - | `r names(a8)[4]` |`r a8[4]` | |`r a8[4]/sum(a4)`    
+M (Mets) | `r names(a9)[1]` |`r a9[1]` | |`r a9[1]/sum(a4)`       
+ -| `r names(a9)[2]` |`r a9[2]` | |`r a9[2]/sum(a4)`    
+Lymph Node Ratio | | `r a11[2]`| (`r a11[1]`-`r a11[3]`)
+Vital Status |  `r names(a10)[1]` |`r a10[1]` |  |`r a10[1]/sum(a4)`     
+ -| `r names(a10)[2]` |`r a10[2]` |    |`r a10[2]/sum(a4)`    
+Follow up (months) | | `r a10b[2]`| (`r a10b[1]`-`r a10b[3]`)
+Survival Status | `r names(a13)[1]` |`r a13[1]` |   |`r a13[1]/sum(a13)`   
+- | `r names(a13)[2]` |`r a13[2]` |   |`r a13[2]/sum(a13)`    
+- | `r names(a13)[3]` |`r a13[3]` |   |`r a13[3]/sum(a13)`    
+Data present | Matched-Tum Normal | `r length(which(!is.na(S2$NORMAL_ID)))` | 
+- | Tumour only |`r length(which(is.na(S2$NORMAL_ID)& !is.na(S2$SAMPLE_ID)))` |
+- | No data | `r length(which(is.na(S2$SAMPLE_ID)))` |
+
+
+```{r}
+## save data to file for gistic -- Can modify this if we want to compare different survival statuses in a different variable
+
+# Alive
+x <- paste("data/dnaseg_gentian/S", S2$Patient.No.[which(S2$Alive_edited == "Alive")], "_dnacopy.seg", sep = "")
+x2 <- paste(x, collapse = " ")
+y <- paste("awk 'FNR>1'", x2, " > All_samples_alive.seg")
+system(y)
+system('echo "Sample\tChromosome\tStart Position\tEnd Position\tNum markers\tSeg.CN\tCN" | cat - All_samples_alive.seg > All_samples_alive.2.seg')
+
+# Deceased
+x <- paste("data/dnaseg_gentian/S", S2$Patient.No.[which(S2$Alive_edited == "Deceased")], "_dnacopy.seg", sep = "")
+x2 <- paste(x, collapse = " ")
+y <- paste("awk 'FNR>1'", x2, " > All_samples_deceased.seg")
+system(y)
+system('echo "Sample\tChromosome\tStart Position\tEnd Position\tNum markers\tSeg.CN\tCN" | cat - All_samples_deceased.seg > All_samples_deceased.2.seg')
+```
+
+## Follow up data/Survival Status (Fig1A)
+
+Below create an intermediate variable `S2m` which has aggregated metrics of the sample information
+
+```{r Figure1A, fig.width=12}
+S2m <- melt(S2[, c("Name", "Follow.up.Survival..months.", "Alive_edited", "Age2", "Location", "Stage", "Grade")], measure.vars = c("Stage", "Age2", "Location", "Grade"))
+
+S2m$Follow.up.Survival..months.[which(S2m$variable %in% c("Age2", "Grade", "Location"))] <- 60
+S2m$value[which(S2m$value == "")] <- NA
+S2m$Alive_edited <- factor(S2m$Alive_edited, levels = c("Censored", "Deceased", "Alive"))
+
+# colours edited to adjust for updated order
+ggplot(data = S2m, aes(x = Name, y = Follow.up.Survival..months., fill = value)) +
+  geom_bar(stat = "identity") +
+  facet_grid(variable ~ Alive_edited, space = "free", scale = "free") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  ggtitle("Survival data: stage colored") +
+  ylab("Follow up time (months)") +
+  scale_fill_manual(values = c("orange", "#1b1616", "#3182bd", "red", brewer.pal(4, "Greens"), "black", brewer.pal(4, "PuBuGn"), "white", "grey")) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  geom_hline(yintercept = 60)
+```
+
+From top to bottom:
+
+* barplot of the times from follow up after surgery to death: note that all alive patients have a follow-up time of 100+ months. The horizontal line below indicates a follow-up of 60 months, or 5 years. Note that 2 of the high-risk "Alive" patients have survived until just after this point and are in the 60-80 age group. 
+* barplot with automatically calculated risk/survival data based on stage and survival status. Note that patients with age 80+ who are deceased are excluded here as it is unknown whether death was disease-associated. 
+Survival Status: Censored, Deceased, or Alive.
+Risk: given that grade and stage are closely correlated, we can use stage as an approximate for risk
+These categorisations are as follows below: 
+The "Alive" patients are roughly evenly distributed between high (9) and low (9) risk. The "Deceased" patients are predominantly high (35) compared to low (12).
+* Age (cut into quartiles)
+* Stage (1-4)
+* Grade (note this is not present for all samples)
+* Location of tumour
+
+
+## Correlated clinical variables
+
+Using kendall Tau's rank based test to assess associations between (ordinal) variables, we find that: 
+
+We find that:
+
+* Stage is strongly correlated with tumour size and node status
+* Node status is associated with shorter follow-up time
+
+Red indicates positive association, blue indicates negative association. Statistically significant associations following BH multiple hypothesis testing are asterisked (** p \< 0.05; *p\<0.1)
+
+```{r}
+index <- c("Stage", "Grade", "pT", "pN", "pM", "LN.Ratio", "Age.at.op", "Follow.up.Survival..months.", "Gender.Male.1..F.0", "Location")
+
+Stemp <- S2[, index]
+Stemp$Grade[which(Stemp$Grade == "Mucinous")] <- NA
+DFmat <- matrix(NA, nrow = length(index), ncol = length(index))
+colnames(DFmat) <- index
+rownames(DFmat) <- index
+DFmatp <- DFmat
+
+for (i in 1:length(index)) {
+  for (j in 1:length(index)) {
+    a1 <- cor.test(as.numeric(Stemp[, i]), as.numeric(Stemp[, j]), method = "kendall", use = "complete")
+    DFmat[i, j] <- a1$statistic
+    DFmatp[i, j] <- a1$p.value
+  }
+}
+
+diag(DFmatp) <- 1
+DFmatp2 <- matrix(p.adjust(DFmatp), nrow = length(index)) / 2
+
+dfnew <- melt(DFmat)
+dfm2 <- melt(DFmatp2)
+dfnew$p <- dfm2$value
+dfnew$sig <- ifelse(dfnew$p < 0.1, "*", ifelse(dfnew$p < 0.05, "**", ""))
+
+ggplot(data = dfnew, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "#2C7BB6", mid = "white", high = "#D7191C") +
+  geom_text(aes(label = sig), color = "black", size = 5) +
+  labs(y = NULL, x = NULL, fill = "tau") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = -45, hjust = 0))
+```
+
+
+## Univariate clinicopathological association with survival status (Fig1B)
+
+Perform a univariate cox regression model for survival status for the above variables, and list in a forest plot. 
+
+Notes: 
+
+- Column headings: variable,  Category,  Number of samples in category, Hazard's Ratio, p value
+- LNR/Node status and AGE is associated with survival status
+- Stage association with survival status: mainly for stage 3 samples
+- Location is significant predictor ONLY when age is taken into account
+
+
+```{r Fig1B}
+S2$Location <- S2$Cancer.Location.By.Pathologist
+
+## Update November 2025: replace existing Alive variable with Censor Status
+SampleIDs$CensorStatus <- factor(SampleIDs$CensorStatus)
+ss <- Surv(S2$Follow.up.Survival..months., S2$CensorStatus)
+ParamID <- c("Age.at.op", "Gender.Male.1..F.0", "Grade", "Stage", "pT", "pN", "pM", "Cancer.Location.By.Pathologist", "LN.Ratio")
+# colnames(S2)[c(9:11, 13:18, 20)]
+nx <- sapply(ParamID, function(x) levels((S2[, x])))
+nl <- sapply(nx, length)
+nx[which(nl == 0)] <- ParamID[which(nl == 0)]
+nl <- sapply(nx, length)
+allparam <- data.frame(Param = character(), Coeff = numeric(), Lower = numeric(), Upper = numeric(), P = numeric(), Psum = numeric())
+
+for (i in 1:length(ParamID)) {
+  ax <- coxph(ss ~ (S2[, ParamID[i]]), data = S2, id = S2$Name)
+  lx <- coefficients(summary(ax))
+  lx2 <- (summary(ax))$conf.int
+  summary_ax <- summary(ax)
+  coef_table <- summary_ax$coefficients
+  confint_table <- summary_ax$conf.int
+  Out <- data.frame(
+    Var = rownames(coef_table),
+    Coeff = coef_table[, "exp(coef)"],
+    Lower = confint_table[, "lower .95"],
+    Upper = confint_table[, "upper .95"],
+    P = coef_table[, "Pr(>|z|)"],
+    Extra = NA
+  )
+  colnames(Out) <- colnames(allparam)
+  if (nl[i] > 1) {
+    Out <- rbind(rep(0, ncol(Out)), Out)
+  }
+  allparam <- rbind(allparam, Out)
+}
+
+if (any(Out$P < 0, na.rm = TRUE)) {
+  warning("Negative p-values detected!")
+}
+
+
+allparam$Param <- unlist(nx)
+allparam$Field <- rep(ParamID, times = nl)
+# rownames(allparam)=nx4
+## create a hazards plot here
+## Need to include the number of sampels
+nx <- sapply(ParamID, function(x) table((S2[, x])))
+nx[which(nl == 1)] <- nrow(S2)
+
+
+allparam$N <- unlist(nx)
+allparam$Coeff[which(allparam$Coeff == 0)] <- ""
+allparam$Lower[which(allparam$Lower == 0)] <- ""
+allparam$Upper[which(allparam$Upper == 0)] <- ""
+
+# allparam[which(allparam==0, arr.ind = T)]=NA
+allparam$Coeff <- as.numeric(allparam$Coeff)
+allparam$lower <- as.numeric(allparam$Lower)
+allparam$upper <- as.numeric(allparam$Upper)
+data1 <- allparam[, c("Field", "Param", "N", "Coeff", "P")]
+data1$Coeff <- round(as.numeric(data1$Coeff), 2)
+data1$P <- round(as.numeric(data1$P), 2)
+## mdata1=allparam[ ,c("Coeff", "lower", "upper")]
+
+forestplot(data1, allparam$Coeff, allparam$lower, allparam$upper, xlog = T, boxsize = 0.1)
+```
+
+## KM plot of stage
+
+Below is a Kaplan Meier plot associated with stage. The colour indications are:
+
+* 1 - forestgreen
+* 2 - blue
+* 3 - black
+* 4 - orange
+
+```{r}
+kmfit <- survfit(ss ~ S2$Stage)
+plot(kmfit,
+  lty = c("solid", "dashed"), col = c("forestgreen", "blue", "black", "orange"),
+  xlab = "Survival Time (months)", ylab = "Overall Survival", mark.time = T
+)
+```
+
+
+## Clinical correlates with survival status (Fig1C)
+
+Construct a multivariate cox regression model to identify clinical predictors of survival status, including age, stage, grade, location, Gender and Lymph Node Ratio
+
+Negative predictors of survival status include:
+
+* Age at operation (note log scaled to make roughly normal)
+* Lymph node ratio: ratio of the number of positive lymph nodes to the total number of dissected lymph nodes. Note that this has been reported to be associated with patient survival status, and our clinical cohort shows this.
+* Distal esofaguscancer associated with poorer survival status compared to Cardia
+
+Note that the median age is `r median(SampleIDs$Age.at.op)`
+ 
+
+```{r Fig1C}
+ss <- Surv(S2$Follow.up.Survival..months., S2$CensorStatus)
+## +S2$LNR+S2$pT+S2$pN+S2$pT+S2$Grade
+a1 <- coxph(ss ~ log(S2$Age.at.op) + S2$Stage + S2$Location + S2$Gender.Male.1..F.0)
+ax <- summary(a1)
+
+## create a forest plot here
+ParamID <- c("Age.at.op", "Stage", "Location", "Gender.Male.1..F.0")
+nx <- sapply(ParamID, function(x) levels((S2[, x])))
+nl <- sapply(nx, length)
+nx[which(nl == 0)] <- ParamID[which(nl == 0)]
+nl <- sapply(nx, length)
+allparam <- data.frame(Param = character(), Coeff = numeric(), Lower = numeric(), Upper = numeric(), P = numeric(), Psum = numeric())
+
+for (i in 1:length(ParamID)) {
+  idx2 <- grep(ParamID[i], rownames(ax$coefficients))
+  Out <- cbind(
+    rownames(ax$coefficients)[idx2], ax$coefficients[idx2, 2],
+    ax$conf.int[idx2, 3], ax$conf.int[idx2, 4], ax$coefficients[idx2, 5], ax$logtest[3]
+  )
+  colnames(Out) <- colnames(allparam)
+  if (nl[i] > 1) {
+    Out <- rbind(rep(NA, ncol(Out)), Out)
+  }
+  allparam <- rbind(allparam, Out)
+}
+
+allparam$Param <- unlist(nx)
+allparam$Field <- rep(ParamID, times = nl)
+allparam$Coeff <- round(as.numeric(allparam$Coeff), 2)
+allparam$Lower <- as.numeric(allparam$Lower)
+allparam$Upper <- as.numeric(allparam$Upper)
+allparam$P <- round(as.numeric(allparam$P), 2)
+forestplot(allparam[, c(7, 1, 2, 5)], allparam$Coeff, allparam$Lower, allparam$Upper, xlog = T, boxsize = 0.1)
+```

@@ -1,0 +1,16 @@
+book_filename: "EAC_Lund_En-bloc"
+delete_merged_file: true
+output_dir: "book"
+rmd_files:
+  - "index.Rmd"
+  - "02-summary.Rmd"
+  - "02b-clinical-summary.Rmd"
+  - "03-preprocessing.Rmd"
+  - "04-consensusvariants.Rmd"
+  - "05_DriverMutations.Rmd"
+  - "05b_Consensus_driver_events.Rmd"
+  - "05c_Filtering_strategy.Rmd"
+  - "07-SNVSummary.Rmd"
+  - "08-CNV-assessment.Rmd"
+  - "09a-tmb-cin.Rmd"
+  - "09b-pathway-analysis.Rmd"

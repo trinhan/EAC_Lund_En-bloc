@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10 Summary of somatic variants | oesophageal cohort</title>
+  <meta name="description" content="10 Summary of somatic variants | oesophageal cohort" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10 Summary of somatic variants | oesophageal cohort" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 Summary of somatic variants | oesophageal cohort" />
+  
+  
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2026-03-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="somatic-variant-filterin-strategy.html"/>
+<link rel="next" href="cnv-data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.22/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="libs/jszip-1.11.3/jszip.min.js"></script>
+<link href="libs/dt-ext-buttons-1.11.3/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-buttons-1.11.3/js/dataTables.buttons.min.js"></script>
+<script src="libs/dt-ext-buttons-1.11.3/js/buttons.html5.min.js"></script>
+<script src="libs/dt-ext-buttons-1.11.3/js/buttons.colVis.min.js"></script>
+<script src="libs/dt-ext-buttons-1.11.3/js/buttons.print.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script type="text/javascript">
+
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Global") elem.value = "Show Global";
+    else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Description</a></li>
+<li class="chapter" data-level="2" data-path="summary-of-tools.html"><a href="summary-of-tools.html"><i class="fa fa-check"></i><b>2</b> Summary of tools</a><ul>
+<li class="chapter" data-level="2.1" data-path="summary-of-tools.html"><a href="summary-of-tools.html#r-libraries"><i class="fa fa-check"></i><b>2.1</b> R libraries</a></li>
+<li class="chapter" data-level="2.2" data-path="summary-of-tools.html"><a href="summary-of-tools.html#analysis-tools"><i class="fa fa-check"></i><b>2.2</b> Analysis Tools</a></li>
+<li class="chapter" data-level="2.3" data-path="summary-of-tools.html"><a href="summary-of-tools.html#annotation-data"><i class="fa fa-check"></i><b>2.3</b> Annotation data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="summary-of-tools.html"><a href="summary-of-tools.html#target-bed"><i class="fa fa-check"></i><b>2.3.1</b> Target Bed</a></li>
+<li class="chapter" data-level="2.3.2" data-path="summary-of-tools.html"><a href="summary-of-tools.html#cancer-gene-census"><i class="fa fa-check"></i><b>2.3.2</b> Cancer Gene Census</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#patient-samples"><i class="fa fa-check"></i><b>3.1</b> Patient Samples</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#somatic-single-nucleotide-variants"><i class="fa fa-check"></i><b>3.2</b> Somatic Single Nucleotide Variants</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#germline-sn-variants"><i class="fa fa-check"></i><b>3.3</b> Germline SN Variants</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#cnvs"><i class="fa fa-check"></i><b>3.4</b> CNVs</a></li>
+<li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#estimates-of-purity"><i class="fa fa-check"></i><b>3.5</b> Estimates of purity</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="clinical-summary.html"><a href="clinical-summary.html"><i class="fa fa-check"></i><b>4</b> Clinical Summary</a><ul>
+<li class="chapter" data-level="4.1" data-path="clinical-summary.html"><a href="clinical-summary.html#summary-table-of-clinical-characteristics"><i class="fa fa-check"></i><b>4.1</b> Summary Table of Clinical characteristics:</a></li>
+<li class="chapter" data-level="4.2" data-path="clinical-summary.html"><a href="clinical-summary.html#follow-up-datasurvival-status-fig1a"><i class="fa fa-check"></i><b>4.2</b> Follow up data/Survival Status (Fig1A)</a></li>
+<li class="chapter" data-level="4.3" data-path="clinical-summary.html"><a href="clinical-summary.html#correlated-clinical-variables"><i class="fa fa-check"></i><b>4.3</b> Correlated clinical variables</a></li>
+<li class="chapter" data-level="4.4" data-path="clinical-summary.html"><a href="clinical-summary.html#univariate-clinicopathological-association-with-survival-status-fig1b"><i class="fa fa-check"></i><b>4.4</b> Univariate clinicopathological association with survival status (Fig1B)</a></li>
+<li class="chapter" data-level="4.5" data-path="clinical-summary.html"><a href="clinical-summary.html#km-plot-of-stage"><i class="fa fa-check"></i><b>4.5</b> KM plot of stage</a></li>
+<li class="chapter" data-level="4.6" data-path="clinical-summary.html"><a href="clinical-summary.html#clinical-correlates-with-survival-status-fig1c"><i class="fa fa-check"></i><b>4.6</b> Clinical correlates with survival status (Fig1C)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="wgs-qc-stats.html"><a href="wgs-qc-stats.html"><i class="fa fa-check"></i><b>5</b> WGS QC stats</a></li>
+<li class="chapter" data-level="6" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html"><i class="fa fa-check"></i><b>6</b> Evaluate Consensus calls</a><ul>
+<li class="chapter" data-level="6.1" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html#germline-variants"><i class="fa fa-check"></i><b>6.1</b> Germline Variants</a></li>
+<li class="chapter" data-level="6.2" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html#evaluate-consensus-tumor"><i class="fa fa-check"></i><b>6.2</b> Evaluate consensus tumor</a></li>
+<li class="chapter" data-level="6.3" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html#summary-of-number-of-variants-per-sample"><i class="fa fa-check"></i><b>6.3</b> Summary of number of variants per sample</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html"><i class="fa fa-check"></i><b>7</b> Annotation of Driver Mutations</a><ul>
+<li class="chapter" data-level="7.1" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#mutpanning"><i class="fa fa-check"></i><b>7.1</b> Mutpanning</a></li>
+<li class="chapter" data-level="7.2" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#oncodrivefml"><i class="fa fa-check"></i><b>7.2</b> OncodriveFML</a></li>
+<li class="chapter" data-level="7.3" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#cgi-annotations"><i class="fa fa-check"></i><b>7.3</b> CGI annotations</a></li>
+<li class="chapter" data-level="7.4" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#cosmic"><i class="fa fa-check"></i><b>7.4</b> Cosmic</a></li>
+<li class="chapter" data-level="7.5" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#oncokb"><i class="fa fa-check"></i><b>7.5</b> Oncokb</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="evaluate-consenus-driver-events.html"><a href="evaluate-consenus-driver-events.html"><i class="fa fa-check"></i><b>8</b> Evaluate Consenus Driver Events</a></li>
+<li class="chapter" data-level="9" data-path="somatic-variant-filterin-strategy.html"><a href="somatic-variant-filterin-strategy.html"><i class="fa fa-check"></i><b>9</b> Somatic Variant filterin Strategy:</a></li>
+<li class="chapter" data-level="10" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html"><i class="fa fa-check"></i><b>10</b> Summary of somatic variants</a><ul>
+<li class="chapter" data-level="10.1" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#most-common-variants"><i class="fa fa-check"></i><b>10.1</b> Most common variants</a></li>
+<li class="chapter" data-level="10.2" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#mutational-frequencies-compared-to-other-cohorts-fig2a"><i class="fa fa-check"></i><b>10.2</b> Mutational frequencies compared to other cohorts (Fig2A)</a></li>
+<li class="chapter" data-level="10.3" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#association-of-mutational-status-with-outcome"><i class="fa fa-check"></i><b>10.3</b> Association of mutational status with outcome</a></li>
+<li class="chapter" data-level="10.4" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#co-occurrence-matrix-for-genes"><i class="fa fa-check"></i><b>10.4</b> Co-occurrence matrix for genes:</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="cnv-data.html"><a href="cnv-data.html"><i class="fa fa-check"></i><b>11</b> CNV data</a><ul>
+<li class="chapter" data-level="11.1" data-path="cnv-data.html"><a href="cnv-data.html#overall-gains-and-losses-at-a-population-level-fig2b"><i class="fa fa-check"></i><b>11.1</b> Overall gains and losses at a population level (Fig2B)</a></li>
+<li class="chapter" data-level="11.2" data-path="cnv-data.html"><a href="cnv-data.html#overall-gains-and-losses-in-good-and-poor-survivors-fig2b---is-this-needed"><i class="fa fa-check"></i><b>11.2</b> Overall gains and losses in good and poor survivors (Fig2B) - Is this needed?</a></li>
+<li class="chapter" data-level="11.3" data-path="cnv-data.html"><a href="cnv-data.html#thresholds-for-copy-number"><i class="fa fa-check"></i><b>11.3</b> Thresholds for copy number</a></li>
+<li class="chapter" data-level="11.4" data-path="cnv-data.html"><a href="cnv-data.html#cin-calculation"><i class="fa fa-check"></i><b>11.4</b> CIN calculation</a></li>
+<li class="chapter" data-level="11.5" data-path="cnv-data.html"><a href="cnv-data.html#cosmic-specific-genes"><i class="fa fa-check"></i><b>11.5</b> Cosmic Specific Genes</a></li>
+<li class="chapter" data-level="11.6" data-path="cnv-data.html"><a href="cnv-data.html#co-amplification-patterns"><i class="fa fa-check"></i><b>11.6</b> Co-amplification patterns</a></li>
+<li class="chapter" data-level="11.7" data-path="cnv-data.html"><a href="cnv-data.html#summary-of-degree-of-cnvs-across-samples"><i class="fa fa-check"></i><b>11.7</b> Summary of degree of CNVs across samples</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html"><i class="fa fa-check"></i><b>12</b> Tumor Mutational Burden and Chromosomal Instability</a><ul>
+<li class="chapter" data-level="12.1" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#tumor-mutational-burden-and-transversions"><i class="fa fa-check"></i><b>12.1</b> Tumor Mutational Burden and Transversions</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#tmb-vs-cin"><i class="fa fa-check"></i><b>12.1.1</b> TMB vs CIN</a></li>
+<li class="chapter" data-level="12.1.2" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#proxies-for-tmb-large-genes"><i class="fa fa-check"></i><b>12.1.2</b> Proxies for TMB: Large Genes</a></li>
+<li class="chapter" data-level="12.1.3" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#passenger-mutation-analysis"><i class="fa fa-check"></i><b>12.1.3</b> Passenger Mutation Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#survival-analysis"><i class="fa fa-check"></i><b>12.2</b> Survival Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html"><i class="fa fa-check"></i><b>13</b> Pathway Analysis and Combined Genomic Assessment</a><ul>
+<li class="chapter" data-level="13.1" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#combined-alterations-cosmic"><i class="fa fa-check"></i><b>13.1</b> Combined alterations: Cosmic</a></li>
+<li class="chapter" data-level="13.2" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#common-variants-in-eac-vs-escc-vs-gastric-cancer"><i class="fa fa-check"></i><b>13.2</b> Common variants in EAC vs ESCC vs Gastric Cancer</a></li>
+<li class="chapter" data-level="13.3" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#association-with-outcome"><i class="fa fa-check"></i><b>13.3</b> Association with outcome</a></li>
+<li class="chapter" data-level="13.4" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#dysregulation-of-oesophagael-pathways"><i class="fa fa-check"></i><b>13.4</b> Dysregulation of oesophagael pathways</a></li>
+<li class="chapter" data-level="13.5" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#pathway-mapper-summary"><i class="fa fa-check"></i><b>13.5</b> Pathway Mapper Summary</a></li>
+<li class="chapter" data-level="13.6" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#proposed-new-pathway-mapper-chunk"><i class="fa fa-check"></i><b>13.6</b> Proposed new pathway-mapper chunk</a></li>
+<li class="chapter" data-level="13.7" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#tcga-pathway-outcome-association"><i class="fa fa-check"></i><b>13.7</b> TCGA Pathway Outcome Association</a></li>
+<li class="chapter" data-level="13.8" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#driver-genes"><i class="fa fa-check"></i><b>13.8</b> Driver Genes</a></li>
+<li class="chapter" data-level="13.9" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#ontology-analysis"><i class="fa fa-check"></i><b>13.9</b> Ontology Analysis</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">oesophageal cohort</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="summary-of-somatic-variants" class="section level1 hasAnchor">
+<h1><span class="header-section-number">10</span> Summary of somatic variants<a href="summary-of-somatic-variants.html#summary-of-somatic-variants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="most-common-variants" class="section level2 hasAnchor">
+<h2><span class="header-section-number">10.1</span> Most common variants<a href="summary-of-somatic-variants.html#most-common-variants" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Below, we collapse the variants such that the most common in this cohort are reported.</p>
+<ul>
+<li>dark blue: Cosmic oesophagael specific</li>
+<li>light blue: Cosmic cancer genes</li>
+</ul>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">CodingVar &lt;-<span class="st"> &quot;splice_(donor|acceptor|region)|stop|missense|frameshift|prime&quot;</span></a>
+<a class="sourceLine" id="cb71-2" title="2"></a>
+<a class="sourceLine" id="cb71-3" title="3">Nmut &lt;-<span class="st"> </span><span class="kw">sapply</span>(Maf2GRangesFiltgn, <span class="cf">function</span>(x) x[<span class="kw">grepl</span>(CodingVar, x<span class="op">$</span>Consequence, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)])</a>
+<a class="sourceLine" id="cb71-4" title="4"><span class="co"># Nmut=sapply(Maf2GRangesFiltgn, function(x) x[(which(!is.na(x$HGVSp)&amp; substr(x$HGVSp, nchar(x$HGVSp), nchar(x$HGVSp))!=&quot;=&quot;))])</span></a>
+<a class="sourceLine" id="cb71-5" title="5"></a>
+<a class="sourceLine" id="cb71-6" title="6">C2 &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;c&quot;</span>, Nmut)</a>
+<a class="sourceLine" id="cb71-7" title="7">df.Coding &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">CHR =</span> <span class="kw">seqnames</span>(C2), <span class="dt">POS =</span> <span class="kw">start</span>(<span class="kw">ranges</span>(C2)), <span class="dt">REF =</span> C2<span class="op">$</span>REF, <span class="dt">ALT =</span> C2<span class="op">$</span>ALT, <span class="dt">Gene =</span> C2<span class="op">$</span>Gene, <span class="dt">HGVSp =</span> C2<span class="op">$</span>HGVSp, <span class="dt">Consequence =</span> C2<span class="op">$</span>Consequence, <span class="dt">Samp =</span> C2<span class="op">$</span>Samp)</a>
+<a class="sourceLine" id="cb71-8" title="8"></a>
+<a class="sourceLine" id="cb71-9" title="9">Output1 &lt;-<span class="st"> </span><span class="kw">acast</span>(df.Coding[, <span class="kw">c</span>(<span class="st">&quot;Gene&quot;</span>, <span class="st">&quot;Samp&quot;</span>)], Gene <span class="op">~</span><span class="st"> </span>Samp)</a>
+<a class="sourceLine" id="cb71-10" title="10">Nx &lt;-<span class="st"> </span><span class="kw">names</span>(FinalSomatic)[(<span class="op">!</span><span class="kw">names</span>(FinalSomatic) <span class="op">%in%</span><span class="st"> </span><span class="kw">colnames</span>(Output1))]</a>
+<a class="sourceLine" id="cb71-11" title="11">Mat2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">ncol =</span> <span class="kw">length</span>(Nx), <span class="dt">nrow =</span> <span class="kw">nrow</span>(Output1))</a>
+<a class="sourceLine" id="cb71-12" title="12"><span class="kw">colnames</span>(Mat2) &lt;-<span class="st"> </span>Nx</a>
+<a class="sourceLine" id="cb71-13" title="13">Output1 &lt;-<span class="st"> </span><span class="kw">cbind</span>(Output1, Mat2)</a>
+<a class="sourceLine" id="cb71-14" title="14"></a>
+<a class="sourceLine" id="cb71-15" title="15"><span class="co"># calculate the frequency of variant, ignoring multiple occurrences in the same sample</span></a>
+<a class="sourceLine" id="cb71-16" title="16">Output1Freq &lt;-<span class="st"> </span><span class="kw">rowSums</span>(<span class="kw">sign</span>(Output1)) <span class="op">/</span><span class="st"> </span><span class="kw">ncol</span>(Output1)</a>
+<a class="sourceLine" id="cb71-17" title="17">x1 &lt;-<span class="st"> </span><span class="kw">rowSums</span>(<span class="kw">sign</span>(Output1))</a>
+<a class="sourceLine" id="cb71-18" title="18">x1b &lt;-<span class="st"> </span><span class="kw">rowSums</span>(Output1[, <span class="op">-</span><span class="kw">which</span>(<span class="kw">colnames</span>(Output1) <span class="op">%in%</span><span class="st"> </span>highMB)])</a>
+<a class="sourceLine" id="cb71-19" title="19">x2 &lt;-<span class="st"> </span><span class="kw">sort</span>(x1, <span class="dt">decreasing =</span> T)</a>
+<a class="sourceLine" id="cb71-20" title="20"></a>
+<a class="sourceLine" id="cb71-21" title="21">ColId &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">names</span>(x2) <span class="op">%in%</span><span class="st"> </span>DriverEvents<span class="op">$</span>Gene, <span class="st">&quot;skyblue&quot;</span>, <span class="st">&quot;grey&quot;</span>)</a>
+<a class="sourceLine" id="cb71-22" title="22">ColId[<span class="kw">which</span>(<span class="kw">names</span>(x2) <span class="op">%in%</span><span class="st"> </span>DriverEvents<span class="op">$</span>Gene[<span class="kw">which</span>(<span class="op">!</span>DriverEvents<span class="op">$</span>Cons <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Unknown&quot;</span>, <span class="st">&quot;Unknown-novel&quot;</span>))])] &lt;-<span class="st"> &quot;slateblue1&quot;</span></a>
+<a class="sourceLine" id="cb71-23" title="23"></a>
+<a class="sourceLine" id="cb71-24" title="24"><span class="kw">barplot</span>(x2[<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>] <span class="op">/</span><span class="st"> </span><span class="dv">64</span>, <span class="dt">las =</span> <span class="dv">2</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency of coding mutation&quot;</span>, <span class="dt">col =</span> ColId, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:most-common-variants"></span>
+<img src="_main_files/figure-html/most-common-variants-1.pdf" alt="Frequency of coding mutations in assessed genes. Skyblue: cancer gene, Darkblue: oesoph specific" width="768" />
+<p class="caption">
+Figure 10.1: Frequency of coding mutations in assessed genes. Skyblue: cancer gene, Darkblue: oesoph specific
+</p>
+</div>
+<p>Note that TP53 is the most ccommon mutation across the cohort</p>
+</div>
+<div id="mutational-frequencies-compared-to-other-cohorts-fig2a" class="section level2 hasAnchor">
+<h2><span class="header-section-number">10.2</span> Mutational frequencies compared to other cohorts (Fig2A)<a href="summary-of-somatic-variants.html#mutational-frequencies-compared-to-other-cohorts-fig2a" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Mutational frequency in our cohort was comparable to:</p>
+<ul>
+<li><a href="https://www.cbioportal.org/study/summary?id=egc_mskcc_2020">MSK2020</a></li>
+<li><a href="https://www.cbioportal.org/study/summary?id=esca_tcga">TCGA ESCA legacy</a></li>
+<li><a href="https://www.cbioportal.org/study/summary?id=stes_tcga_pub">TCGA 2017 publication</a></li>
+<li><a href="https://www.cbioportal.org/study/summary?id=esca_broad">DFCI2013</a> Nature Genetics 2013</li>
+</ul>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1"><span class="co"># Load comparison cohort data files</span></a>
+<a class="sourceLine" id="cb72-2" title="2">comp_cohort_files &lt;-<span class="st"> </span>AllDat<span class="op">$</span>CompCohort</a>
+<a class="sourceLine" id="cb72-3" title="3">comp_cohort_names &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">strsplit</span>(<span class="kw">basename</span>(<span class="kw">unlist</span>(comp_cohort_files)), <span class="st">&quot;_Mutated_Genes.txt&quot;</span>))</a>
+<a class="sourceLine" id="cb72-4" title="4"></a>
+<a class="sourceLine" id="cb72-5" title="5"><span class="co"># Read and store comparison data in a named list</span></a>
+<a class="sourceLine" id="cb72-6" title="6">comp_data_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(comp_cohort_files, <span class="cf">function</span>(f) <span class="kw">read.delim</span>(f, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>))</a>
+<a class="sourceLine" id="cb72-7" title="7"><span class="kw">names</span>(comp_data_list) &lt;-<span class="st"> </span>comp_cohort_names</a>
+<a class="sourceLine" id="cb72-8" title="8"></a>
+<a class="sourceLine" id="cb72-9" title="9"><span class="co"># Initialize frequency table with current cohort data</span></a>
+<a class="sourceLine" id="cb72-10" title="10">df1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Genes =</span> <span class="kw">names</span>(Output1Freq), <span class="dt">LundEAC =</span> Output1Freq)</a>
+<a class="sourceLine" id="cb72-11" title="11"></a>
+<a class="sourceLine" id="cb72-12" title="12"><span class="co"># Merge frequencies from other cohorts</span></a>
+<a class="sourceLine" id="cb72-13" title="13"><span class="cf">for</span> (cohort_name <span class="cf">in</span> <span class="kw">names</span>(comp_data_list)) {</a>
+<a class="sourceLine" id="cb72-14" title="14">  cohort_df &lt;-<span class="st"> </span>comp_data_list[[cohort_name]]</a>
+<a class="sourceLine" id="cb72-15" title="15"></a>
+<a class="sourceLine" id="cb72-16" title="16">  <span class="co"># Clean percentage strings and extract frequencies</span></a>
+<a class="sourceLine" id="cb72-17" title="17">  cohort_freqs &lt;-<span class="st"> </span>cohort_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb72-18" title="18"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(Gene, Freq) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb72-19" title="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="op">!!</span><span class="dt">cohort_name :=</span> <span class="kw">as.numeric</span>(<span class="kw">sub</span>(<span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>, Freq)) <span class="op">/</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb72-20" title="20"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>Freq)</a>
+<a class="sourceLine" id="cb72-21" title="21"></a>
+<a class="sourceLine" id="cb72-22" title="22">  df1 &lt;-<span class="st"> </span><span class="kw">merge</span>(df1, cohort_freqs, <span class="dt">by.x =</span> <span class="st">&quot;Genes&quot;</span>, <span class="dt">by.y =</span> <span class="st">&quot;Gene&quot;</span>, <span class="dt">all.x =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb72-23" title="23">}</a>
+<a class="sourceLine" id="cb72-24" title="24"></a>
+<a class="sourceLine" id="cb72-25" title="25"><span class="co"># Order by current cohort frequency</span></a>
+<a class="sourceLine" id="cb72-26" title="26">df1b &lt;-<span class="st"> </span>df1[<span class="kw">order</span>(df1<span class="op">$</span>LundEAC, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ]</a>
+<a class="sourceLine" id="cb72-27" title="27"></a>
+<a class="sourceLine" id="cb72-28" title="28"><span class="co"># Frequency check for variants outside top 25 (e.g., &gt; 15% in other cohorts)</span></a>
+<a class="sourceLine" id="cb72-29" title="29"><span class="co"># Using arr.ind=T to find indices where frequency &gt; 0.15</span></a>
+<a class="sourceLine" id="cb72-30" title="30">high_freq_others &lt;-<span class="st"> </span><span class="kw">which</span>(df1b[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>), <span class="dv">-1</span>] <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.15</span>, <span class="dt">arr.ind =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb72-31" title="31"></a>
+<a class="sourceLine" id="cb72-32" title="32"><span class="co"># Do a proportion test to check if there is a difference in frequency.</span></a>
+<a class="sourceLine" id="cb72-33" title="33"><span class="co"># cohort_sizes: LundEAC (64), MSK2020 (286), TCGA (79), DFCI (151)</span></a>
+<a class="sourceLine" id="cb72-34" title="34">cohort_sizes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">64</span>, <span class="dv">286</span>, <span class="dv">79</span>, <span class="dv">151</span>)</a>
+<a class="sourceLine" id="cb72-35" title="35"></a>
+<a class="sourceLine" id="cb72-36" title="36">calculate_prop_test &lt;-<span class="st"> </span><span class="cf">function</span>(row) {</a>
+<a class="sourceLine" id="cb72-37" title="37">  <span class="co"># Extract frequencies and convert to counts</span></a>
+<a class="sourceLine" id="cb72-38" title="38">  freqs &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(row[<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb72-39" title="39">  freqs[<span class="kw">is.na</span>(freqs)] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb72-40" title="40">  counts &lt;-<span class="st"> </span>freqs <span class="op">*</span><span class="st"> </span>cohort_sizes</a>
+<a class="sourceLine" id="cb72-41" title="41"></a>
+<a class="sourceLine" id="cb72-42" title="42">  <span class="co"># Run proportion test</span></a>
+<a class="sourceLine" id="cb72-43" title="43">  <span class="kw">tryCatch</span>(</a>
+<a class="sourceLine" id="cb72-44" title="44">    {</a>
+<a class="sourceLine" id="cb72-45" title="45">      <span class="kw">prop.test</span>(counts, cohort_sizes)<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb72-46" title="46">    },</a>
+<a class="sourceLine" id="cb72-47" title="47">    <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="ot">NA</span></a>
+<a class="sourceLine" id="cb72-48" title="48">  )</a>
+<a class="sourceLine" id="cb72-49" title="49">}</a>
+<a class="sourceLine" id="cb72-50" title="50"></a>
+<a class="sourceLine" id="cb72-51" title="51">pval_list &lt;-<span class="st"> </span><span class="kw">apply</span>(df1b, <span class="dv">1</span>, calculate_prop_test)</a>
+<a class="sourceLine" id="cb72-52" title="52"><span class="kw">names</span>(pval_list) &lt;-<span class="st"> </span>df1b<span class="op">$</span>Genes</a>
+<a class="sourceLine" id="cb72-53" title="53"></a>
+<a class="sourceLine" id="cb72-54" title="54"><span class="co"># Identify genes with significant differences after FDR correction</span></a>
+<a class="sourceLine" id="cb72-55" title="55">sig_genes_fdr &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(<span class="kw">p.adjust</span>(pval_list, <span class="dt">method =</span> <span class="st">&quot;fdr&quot;</span>) <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>))</a>
+<a class="sourceLine" id="cb72-56" title="56"></a>
+<a class="sourceLine" id="cb72-57" title="57"><span class="co"># Prepare top 25 genes for plotting</span></a>
+<a class="sourceLine" id="cb72-58" title="58">df_plot &lt;-<span class="st"> </span>df1b[<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>, ]</a>
+<a class="sourceLine" id="cb72-59" title="59">df_plot<span class="op">$</span>Genes_fmt &lt;-<span class="st"> </span><span class="kw">as.character</span>(df_plot<span class="op">$</span>Genes)</a>
+<a class="sourceLine" id="cb72-60" title="60">df_plot<span class="op">$</span>Genes_fmt[df_plot<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>sig_genes_fdr] &lt;-<span class="st"> </span><span class="kw">paste0</span>(df_plot<span class="op">$</span>Genes[df_plot<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>sig_genes_fdr], <span class="st">&quot;*&quot;</span>)</a>
+<a class="sourceLine" id="cb72-61" title="61"></a>
+<a class="sourceLine" id="cb72-62" title="62">melted_freqs &lt;-<span class="st"> </span><span class="kw">melt</span>(df_plot[, <span class="op">!</span><span class="kw">colnames</span>(df_plot) <span class="op">%in%</span><span class="st"> &quot;Genes&quot;</span>], <span class="dt">id.vars =</span> <span class="st">&quot;Genes_fmt&quot;</span>)</a>
+<a class="sourceLine" id="cb72-63" title="63">melted_freqs<span class="op">$</span>Genes_fmt &lt;-<span class="st"> </span><span class="kw">factor</span>(melted_freqs<span class="op">$</span>Genes_fmt, <span class="dt">levels =</span> df_plot<span class="op">$</span>Genes_fmt)</a>
+<a class="sourceLine" id="cb72-64" title="64"></a>
+<a class="sourceLine" id="cb72-65" title="65"><span class="co"># Define color coding for gene labels</span></a>
+<a class="sourceLine" id="cb72-66" title="66">gene_colors &lt;-<span class="st"> </span><span class="kw">ifelse</span>(df_plot<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>DriverEvents<span class="op">$</span>Gene, <span class="st">&quot;darkblue&quot;</span>,</a>
+<a class="sourceLine" id="cb72-67" title="67">  <span class="kw">ifelse</span>(df_plot<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>CmcOesoph<span class="op">$</span>Gene.Symbol, <span class="st">&quot;blue&quot;</span>,</a>
+<a class="sourceLine" id="cb72-68" title="68">    <span class="kw">ifelse</span>(df_plot<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>CosmicList<span class="op">$</span>Gene.Symbol, <span class="st">&quot;lightblue&quot;</span>, <span class="st">&quot;black&quot;</span>)</a>
+<a class="sourceLine" id="cb72-69" title="69">  )</a>
+<a class="sourceLine" id="cb72-70" title="70">)</a>
+<a class="sourceLine" id="cb72-71" title="71"></a>
+<a class="sourceLine" id="cb72-72" title="72"><span class="kw">ggplot</span>(melted_freqs, <span class="kw">aes</span>(<span class="dt">x =</span> Genes_fmt, <span class="dt">y =</span> value, <span class="dt">col =</span> variable)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb72-73" title="73"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb72-74" title="74"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;skyblue&quot;</span>, <span class="st">&quot;#8c6bb1&quot;</span>, <span class="st">&quot;#7fcdbb&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb72-75" title="75"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Gene&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;Cohort&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb72-76" title="76"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb72-77" title="77"><span class="st">  </span><span class="kw">theme</span>(</a>
+<a class="sourceLine" id="cb72-78" title="78">    <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> gene_colors),</a>
+<a class="sourceLine" id="cb72-79" title="79">    <span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>()</a>
+<a class="sourceLine" id="cb72-80" title="80">  )</a></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:Fig2A-comapre-frequencies"></span>
+<img src="_main_files/figure-html/Fig2A-comapre-frequencies-1.pdf" alt="Comparison of frequency of mutations in current cohort with other published methods" width="768" />
+<p class="caption">
+Figure 10.2: Comparison of frequency of mutations in current cohort with other published methods
+</p>
+</div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"></a>
+<a class="sourceLine" id="cb73-2" title="2"><span class="co"># Generate and save summary table for export</span></a>
+<a class="sourceLine" id="cb73-3" title="3">df_mut_freq &lt;-<span class="st"> </span>df1b</a>
+<a class="sourceLine" id="cb73-4" title="4">df_mut_freq<span class="op">$</span>is_oesophageal &lt;-<span class="st"> </span>df_mut_freq<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>CmcOesoph<span class="op">$</span>Gene.Symbol</a>
+<a class="sourceLine" id="cb73-5" title="5">df_mut_freq<span class="op">$</span>is_predicted_driver &lt;-<span class="st"> </span>df_mut_freq<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>DriverEvents<span class="op">$</span>Gene</a>
+<a class="sourceLine" id="cb73-6" title="6">df_mut_freq<span class="op">$</span>p_value &lt;-<span class="st"> </span>pval_list[<span class="kw">match</span>(df_mut_freq<span class="op">$</span>Genes, <span class="kw">names</span>(pval_list))]</a>
+<a class="sourceLine" id="cb73-7" title="7">df_mut_freq<span class="op">$</span>fdr_p_value &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(pval_list, <span class="dt">method =</span> <span class="st">&quot;fdr&quot;</span>)[<span class="kw">match</span>(df_mut_freq<span class="op">$</span>Genes, <span class="kw">names</span>(pval_list))]</a>
+<a class="sourceLine" id="cb73-8" title="8">df_mut_freq<span class="op">$</span>is_significant_fdr &lt;-<span class="st"> </span>df_mut_freq<span class="op">$</span>Genes <span class="op">%in%</span><span class="st"> </span>sig_genes_fdr</a>
+<a class="sourceLine" id="cb73-9" title="9"></a>
+<a class="sourceLine" id="cb73-10" title="10"><span class="kw">write.csv</span>(df_mut_freq, <span class="dt">file =</span> <span class="st">&quot;output/Fig2A_frequencies_stats.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>The significant genes have a p-value less than 0.05 based on a proportionality test (indicated with an asterisk * above), and thus appear at a different frequency compared to other public data.</p>
+</div>
+<div id="association-of-mutational-status-with-outcome" class="section level2 hasAnchor">
+<h2><span class="header-section-number">10.3</span> Association of mutational status with outcome<a href="summary-of-somatic-variants.html#association-of-mutational-status-with-outcome" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Create a univariate cox model, looking at each mutation independently but accounting for age, stage, location, sex etc:</p>
+<ul>
+<li>TP53 associated with good outcome</li>
+<li>RYR1, ARID1A and CDKN2A with poorer outcome</li>
+</ul>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="co"># Select genes with at least 8 mutations for univariate survival analysis</span></a>
+<a class="sourceLine" id="cb74-2" title="2">min_mutations &lt;-<span class="st"> </span><span class="dv">8</span></a>
+<a class="sourceLine" id="cb74-3" title="3">frequent_genes &lt;-<span class="st"> </span><span class="kw">names</span>(x2)[x2 <span class="op">&gt;=</span><span class="st"> </span>min_mutations]</a>
+<a class="sourceLine" id="cb74-4" title="4"></a>
+<a class="sourceLine" id="cb74-5" title="5"><span class="co"># Prepare data frame for survival analysis</span></a>
+<a class="sourceLine" id="cb74-6" title="6"><span class="co"># Combine clinical data (S2) with mutation status for selected genes</span></a>
+<a class="sourceLine" id="cb74-7" title="7">mutation_status &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">sign</span>(Output1[frequent_genes, <span class="kw">match</span>(S2<span class="op">$</span>SAMPLE_ID, <span class="kw">colnames</span>(Output1)), <span class="dt">drop =</span> <span class="ot">FALSE</span>]))</a>
+<a class="sourceLine" id="cb74-8" title="8">survival_data &lt;-<span class="st"> </span><span class="kw">cbind</span>(S2, mutation_status)</a>
+<a class="sourceLine" id="cb74-9" title="9"></a>
+<a class="sourceLine" id="cb74-10" title="10"><span class="co"># Define survival object (using follow-up time and deceased status)</span></a>
+<a class="sourceLine" id="cb74-11" title="11">surv_obj &lt;-<span class="st"> </span><span class="kw">Surv</span>(survival_data<span class="op">$</span>Follow.up.Survival..months., survival_data<span class="op">$</span>Alive <span class="op">==</span><span class="st"> &quot;Deceased&quot;</span>)</a>
+<a class="sourceLine" id="cb74-12" title="12"></a>
+<a class="sourceLine" id="cb74-13" title="13"><span class="co"># Run Cox proportional hazards model for each gene independently</span></a>
+<a class="sourceLine" id="cb74-14" title="14"><span class="co"># Adjusting for clinical covariates: Age, Stage, Grade, Location, Gender, LN.Ratio</span></a>
+<a class="sourceLine" id="cb74-15" title="15">run_cox_model &lt;-<span class="st"> </span><span class="cf">function</span>(gene_name, data, surv) {</a>
+<a class="sourceLine" id="cb74-16" title="16">  <span class="co"># Formula: clinical covariates + the gene&#39;s mutation status</span></a>
+<a class="sourceLine" id="cb74-17" title="17">  formula_str &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;surv ~ log(Age.at.op) + Stage + Grade + Location + Gender.Male.1..F.0 + LN.Ratio + `&quot;</span>, gene_name, <span class="st">&quot;`&quot;</span>)</a>
+<a class="sourceLine" id="cb74-18" title="18"></a>
+<a class="sourceLine" id="cb74-19" title="19">  <span class="kw">tryCatch</span>(</a>
+<a class="sourceLine" id="cb74-20" title="20">    {</a>
+<a class="sourceLine" id="cb74-21" title="21">      model &lt;-<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">as.formula</span>(formula_str), <span class="dt">data =</span> data)</a>
+<a class="sourceLine" id="cb74-22" title="22">      summary_model &lt;-<span class="st"> </span><span class="kw">summary</span>(model)</a>
+<a class="sourceLine" id="cb74-23" title="23"></a>
+<a class="sourceLine" id="cb74-24" title="24">      <span class="co"># Extract coefficients and confidence intervals for the target gene (last row)</span></a>
+<a class="sourceLine" id="cb74-25" title="25">      coef_data &lt;-<span class="st"> </span>summary_model<span class="op">$</span>coefficients</a>
+<a class="sourceLine" id="cb74-26" title="26">      conf_int &lt;-<span class="st"> </span>summary_model<span class="op">$</span>conf.int</a>
+<a class="sourceLine" id="cb74-27" title="27">      last_row &lt;-<span class="st"> </span><span class="kw">nrow</span>(coef_data)</a>
+<a class="sourceLine" id="cb74-28" title="28"></a>
+<a class="sourceLine" id="cb74-29" title="29">      <span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb74-30" title="30">        <span class="dt">Gene =</span> gene_name,</a>
+<a class="sourceLine" id="cb74-31" title="31">        <span class="dt">Coeff =</span> coef_data[last_row, <span class="st">&quot;exp(coef)&quot;</span>], <span class="co"># Hazard Ratio</span></a>
+<a class="sourceLine" id="cb74-32" title="32">        <span class="dt">Lower =</span> conf_int[last_row, <span class="st">&quot;lower .95&quot;</span>],</a>
+<a class="sourceLine" id="cb74-33" title="33">        <span class="dt">Upper =</span> conf_int[last_row, <span class="st">&quot;upper .95&quot;</span>],</a>
+<a class="sourceLine" id="cb74-34" title="34">        <span class="dt">P =</span> coef_data[last_row, <span class="st">&quot;Pr(&gt;|z|)&quot;</span>],</a>
+<a class="sourceLine" id="cb74-35" title="35">        <span class="dt">Psum =</span> summary_model<span class="op">$</span>logtest[<span class="st">&quot;pvalue&quot;</span>],</a>
+<a class="sourceLine" id="cb74-36" title="36">        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb74-37" title="37">      )</a>
+<a class="sourceLine" id="cb74-38" title="38">    },</a>
+<a class="sourceLine" id="cb74-39" title="39">    <span class="dt">error =</span> <span class="cf">function</span>(e) {</a>
+<a class="sourceLine" id="cb74-40" title="40">      <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;Error modeling gene&quot;</span>, gene_name, <span class="st">&quot;:&quot;</span>, e<span class="op">$</span>message))</a>
+<a class="sourceLine" id="cb74-41" title="41">      <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb74-42" title="42">    }</a>
+<a class="sourceLine" id="cb74-43" title="43">  )</a>
+<a class="sourceLine" id="cb74-44" title="44">}</a>
+<a class="sourceLine" id="cb74-45" title="45"></a>
+<a class="sourceLine" id="cb74-46" title="46"><span class="co"># Iterate over genes and combine results into a single data frame</span></a>
+<a class="sourceLine" id="cb74-47" title="47">cox_results &lt;-<span class="st"> </span><span class="kw">lapply</span>(frequent_genes, run_cox_model, <span class="dt">data =</span> survival_data, <span class="dt">surv =</span> surv_obj) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb74-48" title="48"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>()</a>
+<a class="sourceLine" id="cb74-49" title="49"></a>
+<a class="sourceLine" id="cb74-50" title="50"><span class="co"># Clean up result types for presentation</span></a>
+<a class="sourceLine" id="cb74-51" title="51">cox_results<span class="op">$</span>Coeff &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(cox_results<span class="op">$</span>Coeff)</a>
+<a class="sourceLine" id="cb74-52" title="52">cox_results<span class="op">$</span>Lower &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(cox_results<span class="op">$</span>Lower)</a>
+<a class="sourceLine" id="cb74-53" title="53">cox_results<span class="op">$</span>Upper &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(cox_results<span class="op">$</span>Upper)</a>
+<a class="sourceLine" id="cb74-54" title="54">cox_results<span class="op">$</span>P &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.numeric</span>(cox_results<span class="op">$</span>P), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb74-55" title="55"></a>
+<a class="sourceLine" id="cb74-56" title="56"><span class="co"># Visualize results using a forest plot</span></a>
+<a class="sourceLine" id="cb74-57" title="57"><span class="kw">forestplot</span>(</a>
+<a class="sourceLine" id="cb74-58" title="58">  cox_results[, <span class="kw">c</span>(<span class="st">&quot;Gene&quot;</span>, <span class="st">&quot;P&quot;</span>)],</a>
+<a class="sourceLine" id="cb74-59" title="59">  cox_results<span class="op">$</span>Coeff,</a>
+<a class="sourceLine" id="cb74-60" title="60">  cox_results<span class="op">$</span>Lower,</a>
+<a class="sourceLine" id="cb74-61" title="61">  cox_results<span class="op">$</span>Upper,</a>
+<a class="sourceLine" id="cb74-62" title="62">  <span class="dt">xlog =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb74-63" title="63">  <span class="dt">boxsize =</span> <span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb74-64" title="64">)</a></code></pre></div>
+<embed src="_main_files/figure-html/Fig3A-1.pdf" width="768" type="application/pdf" />
+</div>
+<div id="co-occurrence-matrix-for-genes" class="section level2 hasAnchor">
+<h2><span class="header-section-number">10.4</span> Co-occurrence matrix for genes:<a href="summary-of-somatic-variants.html#co-occurrence-matrix-for-genes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Determine whethere there is any border-line significant associations which can explain lower than expected number of mutations, or convergence in mutational profile.</p>
+<p>The plot below shows association between PIK3CA and KMT2C; RUNX1 and KMT2D and MGMT and PIK3CA</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="co"># l2=match(test, rownames(Output1))</span></a>
+<a class="sourceLine" id="cb75-2" title="2">l2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">match</span>(Allg, <span class="kw">rownames</span>(Output1)), <span class="kw">match</span>(frequent_genes, <span class="kw">rownames</span>(Output1)))</a>
+<a class="sourceLine" id="cb75-3" title="3">t2 &lt;-<span class="st"> </span>Output1[<span class="kw">na.omit</span>(<span class="kw">unique</span>(l2)), ]</a>
+<a class="sourceLine" id="cb75-4" title="4">Mx1 &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="kw">t</span>(t2))</a>
+<a class="sourceLine" id="cb75-5" title="5"><span class="co">## calculate a fisher&#39;s test for co-occurence:</span></a>
+<a class="sourceLine" id="cb75-6" title="6"><span class="co">##</span></a>
+<a class="sourceLine" id="cb75-7" title="7"><span class="co"># FT=fisher.test(t(t2))</span></a>
+<a class="sourceLine" id="cb75-8" title="8">pvals &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(t2), <span class="cf">function</span>(x) <span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(t2), <span class="cf">function</span>(y) <span class="kw">fisher.test</span>(<span class="kw">table</span>(t2[x, ], t2[y, ]))<span class="op">$</span>p.value))</a>
+<a class="sourceLine" id="cb75-9" title="9"><span class="co"># diag(pvals)=1</span></a>
+<a class="sourceLine" id="cb75-10" title="10">pvals2 &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(pvals, <span class="st">&quot;fdr&quot;</span>)</a>
+<a class="sourceLine" id="cb75-11" title="11">pvals3 &lt;-<span class="st"> </span><span class="kw">matrix</span>(pvals2, <span class="dt">nrow =</span> <span class="kw">nrow</span>(pvals))</a>
+<a class="sourceLine" id="cb75-12" title="12"><span class="kw">colnames</span>(pvals3) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Mx1)</a>
+<a class="sourceLine" id="cb75-13" title="13"><span class="kw">rownames</span>(pvals3) &lt;-<span class="st"> </span><span class="kw">rownames</span>(Mx1)</a>
+<a class="sourceLine" id="cb75-14" title="14"></a>
+<a class="sourceLine" id="cb75-15" title="15">dfnew &lt;-<span class="st"> </span><span class="kw">melt</span>(Mx1)</a>
+<a class="sourceLine" id="cb75-16" title="16">dfm2 &lt;-<span class="st"> </span><span class="kw">melt</span>(pvals3)</a>
+<a class="sourceLine" id="cb75-17" title="17">dfnew<span class="op">$</span>p &lt;-<span class="st"> </span>dfm2<span class="op">$</span>value</a>
+<a class="sourceLine" id="cb75-18" title="18">dfnew<span class="op">$</span>sig &lt;-<span class="st"> </span><span class="kw">ifelse</span>(dfnew<span class="op">$</span>p <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>, <span class="st">&quot;*&quot;</span>, <span class="kw">ifelse</span>(dfnew<span class="op">$</span>p <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, <span class="st">&quot;**&quot;</span>, <span class="st">&quot;&quot;</span>))</a>
+<a class="sourceLine" id="cb75-19" title="19"></a>
+<a class="sourceLine" id="cb75-20" title="20"><span class="kw">ggplot</span>(<span class="dt">data =</span> dfnew, <span class="kw">aes</span>(<span class="dt">x =</span> Var1, <span class="dt">y =</span> Var2, <span class="dt">fill =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-21" title="21"><span class="st">  </span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-22" title="22"><span class="st">  </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;#2C7BB6&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;#D7191C&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-23" title="23"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> sig), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">size =</span> <span class="dv">5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-24" title="24"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">fill =</span> <span class="st">&quot;tau&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-25" title="25"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb75-26" title="26"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-45</span>, <span class="dt">hjust =</span> <span class="dv">0</span>))</a></code></pre></div>
+<embed src="_main_files/figure-html/corr-mut-1.pdf" width="768" type="application/pdf" />
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="somatic-variant-filterin-strategy.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cnv-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

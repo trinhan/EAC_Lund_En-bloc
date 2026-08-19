@@ -1,0 +1,177 @@
+# Tumor Mutational Burden and Chromosomal Instability
+
+## Tumor Mutational Burden and Transversions
+
+```{r tmb-transversion, fig.cap="Tumour Mutational Burden and A>C Transversion frequency. Note that ER cohort samples are indicated in blue"}
+# Define the MMR genes
+MMRgenes <- c("MSH2", "MSH6", "POLE", "MSH3", "MLH1", "MLH3", "PMS2", "PMS1", "MUTYH")
+a1 <- which(df.Coding$Gene %in% MMRgenes)
+MMRout <- stack(by(df.Coding$Gene[a1], df.Coding$Samp[a1], paste))
+
+# Define the HR genes
+HRgenes <- c("BRCA1", "BRCA2", "RAD50", "ATM", "H2AX", "PALB2", "RAD52", "MRE11", "BRIP1", "BARD1", "RAD51D")
+a1 <- which(df.Coding$Gene %in% HRgenes)
+HRout <- stack(by(df.Coding$Gene[a1], df.Coding$Samp[a1], paste, collapse = " "))
+
+# Calculate TMB
+# ApproxCoding is calculated based on target bed width
+ApproxCoding <- sum(TargetBedGR$width) / 1E6
+Nmut <- table(factor(C2$Samp, levels = names(FinalSomatic)))
+TMB <- Nmut / ApproxCoding
+
+# Initialize dfMut with TMB and clinical data
+dfMut <- data.frame(Sample = names(TMB), TMB = TMB, Ntot = TotGn, MMRgenes = NA, HRgenes = NA, ER = S2$Alive_edited[match(names(TMB), S2$SAMPLE_ID)])
+
+dfMut$MMRgenes[na.omit(match(MMRout$ind, dfMut$Sample))] <- MMRout$values
+dfMut$HRgenes[na.omit(match(HRout$ind, dfMut$Sample))] <- HRout$values
+dfMut$isMMRorHR <- ifelse(!is.na(dfMut$MMRgenes) | !is.na(dfMut$HRgenes), "yes", "no")
+dfMut$Genes <- paste(dfMut$MMRgenes, dfMut$HRgenes)
+dfMut$Genes <- gsub("NA", "", dfMut$Genes)
+dfMut$Genes[which(dfMut$Genes == " ")] <- NA
+
+# Transversion calculation (A>C)
+TVsites1_filt <- table(factor(FinalSomaticListfilt[(which(FinalSomaticListfilt$REF == "A" & FinalSomaticListfilt$ALT == "C")), "Tumor_Sample_Barcode"], levels = names(FinalSomatic)))
+TVsites2_filt <- table(factor(FinalSomaticListfilt[(which(FinalSomaticListfilt$REF == "T" & FinalSomaticListfilt$ALT == "G")), "Tumor_Sample_Barcode"], levels = names(FinalSomatic)))
+allTVgn <- TVsites1_filt + TVsites2_filt
+
+dfMut$AtoCgnfilt <- as.vector(allTVgn)
+dfMut$AtoCgnfiltFreq <- allTVgn / as.vector(table(factor(FinalSomaticListfilt$Tumor_Sample_Barcode, levels = names(FinalSomatic))))
+dfMut$Loc <- S2$Location[match(dfMut$Sample, S2$SAMPLE_ID)]
+
+# Plots
+p1 <- ggplot(dfMut, aes(x = TMB.Freq, y = Ntot, col = ER, label = Genes)) +
+  geom_point() +
+  geom_label_repel(size = 2.5, segment.size = 0.2, fontface = 3) +
+  ggtitle("Tumour coding burden vs total mutations") +
+  theme_bw()
+
+p2 <- ggplot(dfMut, aes(x = TMB.Freq, y = AtoCgnfiltFreq, col = ER, label = Genes)) +
+  geom_point() +
+  geom_label_repel(size = 2.5, segment.size = 0.2, fontface = 3) +
+  ggtitle("A>C Mutation frequency vs TMB") +
+  theme_bw()
+
+p1
+p2
+
+S2$AtoCfreq <- dfMut$AtoCgnfiltFreq[match(S2$SAMPLE_ID, dfMut$Sample)]
+```
+
+### TMB vs CIN
+
+```{r tmb-cin}
+dfMut$CIN_beta <- Cin3a[na.omit(match(names(Cin3a), dfMut$Sample))]
+
+dfMut2 <- dfMut[, c("TMB.Freq", "CIN_beta", "ER", "Genes", "Sample")]
+# Ensure Sample names are consistent
+dfMut2$Sample <- sub("\\..*", "", dfMut2$Sample)
+
+ggplot(dfMut2, aes(y = TMB.Freq, x = CIN_beta, col = ER, label = Genes)) +
+  geom_point() +
+  geom_label_repel(size = 2.5, segment.size = 0.2, fontface = 3) +
+  theme_bw() +
+  ggtitle("TMB vs CIN (Beta score)")
+```
+
+### Proxies for TMB: Large Genes
+
+Consider the genes RYR1 and LRP1B which are large genes. Mutations in these genes are often correlated with high TMB.
+
+```{r tmb-large-genes, fig.cap="TMB in samples with and without mutations in large genes (RYR1, LRP1B)"}
+# Identify samples with mutations in RYR1 or LRP1B
+RYR1_all <- unique(FinalSomaticList$Tumor_Sample_Barcode[which(FinalSomaticList$Hugo_Symbol == "RYR1")])
+LRP1B_all <- unique(FinalSomaticList$Tumor_Sample_Barcode[which(FinalSomaticList$Hugo_Symbol == "LRP1B")])
+
+# Define "Both"
+both_samples <- intersect(RYR1_all, LRP1B_all)
+
+# Define individual gene sets for plotting by excluding the "Both" samples
+RYR1_samples <- setdiff(RYR1_all, both_samples)
+LRP1B_samples <- setdiff(LRP1B_all, both_samples)
+
+# Define "None"
+any_large_gene_mut <- unique(c(RYR1_all, LRP1B_all))
+none_samples <- dfMut$Sample[!(dfMut$Sample %in% any_large_gene_mut)]
+
+# Create a long-format data frame for plotting categories
+dfPlot <- rbind(
+  data.frame(dfMut[dfMut$Sample %in% none_samples, ], Category = "None"),
+  data.frame(dfMut[dfMut$Sample %in% RYR1_samples, ], Category = "RYR1 only"),
+  data.frame(dfMut[dfMut$Sample %in% LRP1B_samples, ], Category = "LRP1B only"),
+  data.frame(dfMut[dfMut$Sample %in% both_samples, ], Category = "Both")
+)
+
+dfPlot$Category <- factor(dfPlot$Category, levels = c("None", "RYR1 only", "LRP1B only", "Both"))
+
+ggplot(dfPlot, aes(x = Category, y = TMB.Freq, fill = Category)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_bw() +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("TMB by RYR1 and LRP1B Mutation Status")
+```
+
+### Passenger Mutation Analysis
+
+Count how many of the large genes (RYR1, LRP1B) are mutated per sample.
+
+```{r passenger-mut-count}
+# Calculate passenger mutation count per sample
+passenger_genes <- c("RYR1", "LRP1B")
+passenger_counts <- table(
+  FinalSomaticList$Tumor_Sample_Barcode[FinalSomaticList$Hugo_Symbol %in% passenger_genes],
+  FinalSomaticList$Hugo_Symbol[FinalSomaticList$Hugo_Symbol %in% passenger_genes] != ""
+)
+# Simplified: use a logical matrix to count unique hits per sample
+passenger_hits <- FinalSomaticList[FinalSomaticList$Hugo_Symbol %in% passenger_genes, c("Tumor_Sample_Barcode", "Hugo_Symbol")]
+passenger_hits <- unique(passenger_hits)
+passenger_count_df <- as.data.frame(table(passenger_hits$Tumor_Sample_Barcode))
+colnames(passenger_count_df) <- c("Sample", "PassengerCount")
+
+S2B <- merge(dfMut, S2, by.x = "Sample", by.y = "SAMPLE_ID")
+# Merge into clinical data S2B
+S2B$PassengerCount <- passenger_count_df$PassengerCount[match(S2B$Sample, passenger_count_df$Sample)]
+S2B$PassengerCount[is.na(S2B$PassengerCount)] <- 0
+```
+
+Perform t.test test to compare TMB against mutation Category
+
+```{r tmb-passenger-comparison}
+# Perform t.test test to compare TMB against mutation Category
+t.test(TMB.Freq ~ Category, data = dfPlot[dfPlot$Category %in% c("Both", "None"), ])
+t.test(TMB.Freq ~ Category, data = dfPlot[dfPlot$Category %in% c("RYR1 only", "None"), ])
+t.test(TMB.Freq ~ Category, data = dfPlot[dfPlot$Category %in% c("LRP1B only", "None"), ])
+``` 
+
+## Survival Analysis
+
+We assess TMB, CIN, and Passenger Mutation Count as predictors of survival, accounting for Age and Stage.
+
+```{r survival-analysis-tmb-cin}
+# Prepare survival object
+ss <- Surv(S2B$Follow.up.Survival..months., S2B$CensorStatus)
+
+# 1. Survival for TMB (Dichotomized by median)
+S2B$TMB_level <- ifelse(S2B$TMB.Freq > median(S2B$TMB.Freq, na.rm = TRUE), "High", "Low")
+cox_tmb <- coxph(ss ~ TMB_level + Stage + Age.at.op, data = S2B)
+summary(cox_tmb)
+
+# 2. Survival for CIN
+cox_cin <- coxph(ss ~ CIN_beta + Stage + Age.at.op, data = S2B)
+summary(cox_cin)
+
+# 3. Survival for Passenger Mutation Count
+cox_pass <- coxph(ss ~ PassengerCount + Stage + Age.at.op, data = S2B)
+summary(cox_pass)
+
+# Kaplan-Meier Plots
+fit_tmb <- survfit(ss ~ TMB_level, data = S2B)
+plot(fit_tmb, col = c("red", "blue"), lty = 1:2, xlab = "Survival Time (months)", ylab = "Overall Survival", mark.time = T)
+title("Survival by TMB Level (Median Split)")
+legend("topright", legend = levels(factor(S2B$TMB_level)), col = c("red", "blue"), lty = 1:2)
+
+fit_pass <- survfit(ss ~ PassengerCount, data = S2B)
+plot(fit_pass, col = brewer.pal(4, "Set1"), lty = 1, xlab = "Survival Time (months)", ylab = "Overall Survival", mark.time = T)
+title("Survival by Passenger Mutation Count")
+legend("topright", legend = levels(factor(S2B$PassengerCount)), col = brewer.pal(4, "Set1"), lty = 1)
+```

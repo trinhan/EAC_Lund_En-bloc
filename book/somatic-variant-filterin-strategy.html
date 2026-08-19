@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Somatic Variant filterin Strategy: | oesophageal cohort</title>
+  <meta name="description" content="9 Somatic Variant filterin Strategy: | oesophageal cohort" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9 Somatic Variant filterin Strategy: | oesophageal cohort" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9 Somatic Variant filterin Strategy: | oesophageal cohort" />
+  
+  
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2026-03-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="evaluate-consenus-driver-events.html"/>
+<link rel="next" href="summary-of-somatic-variants.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.22/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="libs/jszip-1.11.3/jszip.min.js"></script>
+<link href="libs/dt-ext-buttons-1.11.3/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-buttons-1.11.3/js/dataTables.buttons.min.js"></script>
+<script src="libs/dt-ext-buttons-1.11.3/js/buttons.html5.min.js"></script>
+<script src="libs/dt-ext-buttons-1.11.3/js/buttons.colVis.min.js"></script>
+<script src="libs/dt-ext-buttons-1.11.3/js/buttons.print.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script type="text/javascript">
+
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Global") elem.value = "Show Global";
+    else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Description</a></li>
+<li class="chapter" data-level="2" data-path="summary-of-tools.html"><a href="summary-of-tools.html"><i class="fa fa-check"></i><b>2</b> Summary of tools</a><ul>
+<li class="chapter" data-level="2.1" data-path="summary-of-tools.html"><a href="summary-of-tools.html#r-libraries"><i class="fa fa-check"></i><b>2.1</b> R libraries</a></li>
+<li class="chapter" data-level="2.2" data-path="summary-of-tools.html"><a href="summary-of-tools.html#analysis-tools"><i class="fa fa-check"></i><b>2.2</b> Analysis Tools</a></li>
+<li class="chapter" data-level="2.3" data-path="summary-of-tools.html"><a href="summary-of-tools.html#annotation-data"><i class="fa fa-check"></i><b>2.3</b> Annotation data</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="summary-of-tools.html"><a href="summary-of-tools.html#target-bed"><i class="fa fa-check"></i><b>2.3.1</b> Target Bed</a></li>
+<li class="chapter" data-level="2.3.2" data-path="summary-of-tools.html"><a href="summary-of-tools.html#cancer-gene-census"><i class="fa fa-check"></i><b>2.3.2</b> Cancer Gene Census</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#patient-samples"><i class="fa fa-check"></i><b>3.1</b> Patient Samples</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#somatic-single-nucleotide-variants"><i class="fa fa-check"></i><b>3.2</b> Somatic Single Nucleotide Variants</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#germline-sn-variants"><i class="fa fa-check"></i><b>3.3</b> Germline SN Variants</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#cnvs"><i class="fa fa-check"></i><b>3.4</b> CNVs</a></li>
+<li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#estimates-of-purity"><i class="fa fa-check"></i><b>3.5</b> Estimates of purity</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="clinical-summary.html"><a href="clinical-summary.html"><i class="fa fa-check"></i><b>4</b> Clinical Summary</a><ul>
+<li class="chapter" data-level="4.1" data-path="clinical-summary.html"><a href="clinical-summary.html#summary-table-of-clinical-characteristics"><i class="fa fa-check"></i><b>4.1</b> Summary Table of Clinical characteristics:</a></li>
+<li class="chapter" data-level="4.2" data-path="clinical-summary.html"><a href="clinical-summary.html#follow-up-datasurvival-status-fig1a"><i class="fa fa-check"></i><b>4.2</b> Follow up data/Survival Status (Fig1A)</a></li>
+<li class="chapter" data-level="4.3" data-path="clinical-summary.html"><a href="clinical-summary.html#correlated-clinical-variables"><i class="fa fa-check"></i><b>4.3</b> Correlated clinical variables</a></li>
+<li class="chapter" data-level="4.4" data-path="clinical-summary.html"><a href="clinical-summary.html#univariate-clinicopathological-association-with-survival-status-fig1b"><i class="fa fa-check"></i><b>4.4</b> Univariate clinicopathological association with survival status (Fig1B)</a></li>
+<li class="chapter" data-level="4.5" data-path="clinical-summary.html"><a href="clinical-summary.html#km-plot-of-stage"><i class="fa fa-check"></i><b>4.5</b> KM plot of stage</a></li>
+<li class="chapter" data-level="4.6" data-path="clinical-summary.html"><a href="clinical-summary.html#clinical-correlates-with-survival-status-fig1c"><i class="fa fa-check"></i><b>4.6</b> Clinical correlates with survival status (Fig1C)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="wgs-qc-stats.html"><a href="wgs-qc-stats.html"><i class="fa fa-check"></i><b>5</b> WGS QC stats</a></li>
+<li class="chapter" data-level="6" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html"><i class="fa fa-check"></i><b>6</b> Evaluate Consensus calls</a><ul>
+<li class="chapter" data-level="6.1" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html#germline-variants"><i class="fa fa-check"></i><b>6.1</b> Germline Variants</a></li>
+<li class="chapter" data-level="6.2" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html#evaluate-consensus-tumor"><i class="fa fa-check"></i><b>6.2</b> Evaluate consensus tumor</a></li>
+<li class="chapter" data-level="6.3" data-path="evaluate-consensus-calls.html"><a href="evaluate-consensus-calls.html#summary-of-number-of-variants-per-sample"><i class="fa fa-check"></i><b>6.3</b> Summary of number of variants per sample</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html"><i class="fa fa-check"></i><b>7</b> Annotation of Driver Mutations</a><ul>
+<li class="chapter" data-level="7.1" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#mutpanning"><i class="fa fa-check"></i><b>7.1</b> Mutpanning</a></li>
+<li class="chapter" data-level="7.2" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#oncodrivefml"><i class="fa fa-check"></i><b>7.2</b> OncodriveFML</a></li>
+<li class="chapter" data-level="7.3" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#cgi-annotations"><i class="fa fa-check"></i><b>7.3</b> CGI annotations</a></li>
+<li class="chapter" data-level="7.4" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#cosmic"><i class="fa fa-check"></i><b>7.4</b> Cosmic</a></li>
+<li class="chapter" data-level="7.5" data-path="annotation-of-driver-mutations.html"><a href="annotation-of-driver-mutations.html#oncokb"><i class="fa fa-check"></i><b>7.5</b> Oncokb</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="evaluate-consenus-driver-events.html"><a href="evaluate-consenus-driver-events.html"><i class="fa fa-check"></i><b>8</b> Evaluate Consenus Driver Events</a></li>
+<li class="chapter" data-level="9" data-path="somatic-variant-filterin-strategy.html"><a href="somatic-variant-filterin-strategy.html"><i class="fa fa-check"></i><b>9</b> Somatic Variant filterin Strategy:</a></li>
+<li class="chapter" data-level="10" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html"><i class="fa fa-check"></i><b>10</b> Summary of somatic variants</a><ul>
+<li class="chapter" data-level="10.1" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#most-common-variants"><i class="fa fa-check"></i><b>10.1</b> Most common variants</a></li>
+<li class="chapter" data-level="10.2" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#mutational-frequencies-compared-to-other-cohorts-fig2a"><i class="fa fa-check"></i><b>10.2</b> Mutational frequencies compared to other cohorts (Fig2A)</a></li>
+<li class="chapter" data-level="10.3" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#association-of-mutational-status-with-outcome"><i class="fa fa-check"></i><b>10.3</b> Association of mutational status with outcome</a></li>
+<li class="chapter" data-level="10.4" data-path="summary-of-somatic-variants.html"><a href="summary-of-somatic-variants.html#co-occurrence-matrix-for-genes"><i class="fa fa-check"></i><b>10.4</b> Co-occurrence matrix for genes:</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="cnv-data.html"><a href="cnv-data.html"><i class="fa fa-check"></i><b>11</b> CNV data</a><ul>
+<li class="chapter" data-level="11.1" data-path="cnv-data.html"><a href="cnv-data.html#overall-gains-and-losses-at-a-population-level-fig2b"><i class="fa fa-check"></i><b>11.1</b> Overall gains and losses at a population level (Fig2B)</a></li>
+<li class="chapter" data-level="11.2" data-path="cnv-data.html"><a href="cnv-data.html#overall-gains-and-losses-in-good-and-poor-survivors-fig2b---is-this-needed"><i class="fa fa-check"></i><b>11.2</b> Overall gains and losses in good and poor survivors (Fig2B) - Is this needed?</a></li>
+<li class="chapter" data-level="11.3" data-path="cnv-data.html"><a href="cnv-data.html#thresholds-for-copy-number"><i class="fa fa-check"></i><b>11.3</b> Thresholds for copy number</a></li>
+<li class="chapter" data-level="11.4" data-path="cnv-data.html"><a href="cnv-data.html#cin-calculation"><i class="fa fa-check"></i><b>11.4</b> CIN calculation</a></li>
+<li class="chapter" data-level="11.5" data-path="cnv-data.html"><a href="cnv-data.html#cosmic-specific-genes"><i class="fa fa-check"></i><b>11.5</b> Cosmic Specific Genes</a></li>
+<li class="chapter" data-level="11.6" data-path="cnv-data.html"><a href="cnv-data.html#co-amplification-patterns"><i class="fa fa-check"></i><b>11.6</b> Co-amplification patterns</a></li>
+<li class="chapter" data-level="11.7" data-path="cnv-data.html"><a href="cnv-data.html#summary-of-degree-of-cnvs-across-samples"><i class="fa fa-check"></i><b>11.7</b> Summary of degree of CNVs across samples</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html"><i class="fa fa-check"></i><b>12</b> Tumor Mutational Burden and Chromosomal Instability</a><ul>
+<li class="chapter" data-level="12.1" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#tumor-mutational-burden-and-transversions"><i class="fa fa-check"></i><b>12.1</b> Tumor Mutational Burden and Transversions</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#tmb-vs-cin"><i class="fa fa-check"></i><b>12.1.1</b> TMB vs CIN</a></li>
+<li class="chapter" data-level="12.1.2" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#proxies-for-tmb-large-genes"><i class="fa fa-check"></i><b>12.1.2</b> Proxies for TMB: Large Genes</a></li>
+<li class="chapter" data-level="12.1.3" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#passenger-mutation-analysis"><i class="fa fa-check"></i><b>12.1.3</b> Passenger Mutation Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="tumor-mutational-burden-and-chromosomal-instability.html"><a href="tumor-mutational-burden-and-chromosomal-instability.html#survival-analysis"><i class="fa fa-check"></i><b>12.2</b> Survival Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html"><i class="fa fa-check"></i><b>13</b> Pathway Analysis and Combined Genomic Assessment</a><ul>
+<li class="chapter" data-level="13.1" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#combined-alterations-cosmic"><i class="fa fa-check"></i><b>13.1</b> Combined alterations: Cosmic</a></li>
+<li class="chapter" data-level="13.2" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#common-variants-in-eac-vs-escc-vs-gastric-cancer"><i class="fa fa-check"></i><b>13.2</b> Common variants in EAC vs ESCC vs Gastric Cancer</a></li>
+<li class="chapter" data-level="13.3" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#association-with-outcome"><i class="fa fa-check"></i><b>13.3</b> Association with outcome</a></li>
+<li class="chapter" data-level="13.4" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#dysregulation-of-oesophagael-pathways"><i class="fa fa-check"></i><b>13.4</b> Dysregulation of oesophagael pathways</a></li>
+<li class="chapter" data-level="13.5" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#pathway-mapper-summary"><i class="fa fa-check"></i><b>13.5</b> Pathway Mapper Summary</a></li>
+<li class="chapter" data-level="13.6" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#proposed-new-pathway-mapper-chunk"><i class="fa fa-check"></i><b>13.6</b> Proposed new pathway-mapper chunk</a></li>
+<li class="chapter" data-level="13.7" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#tcga-pathway-outcome-association"><i class="fa fa-check"></i><b>13.7</b> TCGA Pathway Outcome Association</a></li>
+<li class="chapter" data-level="13.8" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#driver-genes"><i class="fa fa-check"></i><b>13.8</b> Driver Genes</a></li>
+<li class="chapter" data-level="13.9" data-path="pathway-analysis-and-combined-genomic-assessment.html"><a href="pathway-analysis-and-combined-genomic-assessment.html#ontology-analysis"><i class="fa fa-check"></i><b>13.9</b> Ontology Analysis</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">oesophageal cohort</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="somatic-variant-filterin-strategy" class="section level1 hasAnchor">
+<h1><span class="header-section-number">9</span> Somatic Variant filterin Strategy:<a href="somatic-variant-filterin-strategy.html#somatic-variant-filterin-strategy" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Note the following steps to filter variants:</p>
+<ul>
+<li>Consider only variants which are associated with: splcie junctions, frameshifts, missense, stop, 5’UTR and 3’UTR</li>
+<li>Lies wthin the assigned bed file (off-target reads are omitted)</li>
+<li>filtering out common gnomad or mgrb variants of 0.01 (Previously done in section 04)</li>
+<li>Variants called by two of strelka, mutect2 or vardict (Previously done in section 04)</li>
+<li>VAF which are too high in non-matched normal samples (These would be likely 70% or lower purity, High VAF of 80+ are possibly germline variants) (Previously done in section 04)</li>
+</ul>
+<p>Below is a summary of the types of mutations found across the patient samples:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" title="1"><span class="co"># Define variant types to report</span></a>
+<a class="sourceLine" id="cb69-2" title="2">coding_vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;splice_[d|a|r]&quot;</span>, <span class="st">&quot;stop&quot;</span>, <span class="st">&quot;miss&quot;</span>, <span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;prime&quot;</span>)</a>
+<a class="sourceLine" id="cb69-3" title="3">other_vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;5_prime&quot;</span>)</a>
+<a class="sourceLine" id="cb69-4" title="4"></a>
+<a class="sourceLine" id="cb69-5" title="5"><span class="co"># Convert MAF to GRanges for each sample</span></a>
+<a class="sourceLine" id="cb69-6" title="6">maf_granges_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(FinalSomatic, <span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb69-7" title="7">    <span class="kw">GRanges</span>(</a>
+<a class="sourceLine" id="cb69-8" title="8">        <span class="dt">seqnames =</span> x<span class="op">$</span>CHR,</a>
+<a class="sourceLine" id="cb69-9" title="9">        <span class="dt">ranges =</span> <span class="kw">IRanges</span>(<span class="dt">start =</span> x<span class="op">$</span>POS, <span class="dt">end =</span> x<span class="op">$</span>POS <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb69-10" title="10">        <span class="dt">Gene =</span> x<span class="op">$</span>Hugo_Symbol,</a>
+<a class="sourceLine" id="cb69-11" title="11">        <span class="dt">Consequence =</span> x<span class="op">$</span>Consequence,</a>
+<a class="sourceLine" id="cb69-12" title="12">        <span class="dt">REF =</span> x<span class="op">$</span>REF,</a>
+<a class="sourceLine" id="cb69-13" title="13">        <span class="dt">ALT =</span> x<span class="op">$</span>ALT,</a>
+<a class="sourceLine" id="cb69-14" title="14">        <span class="dt">gn_af =</span> x<span class="op">$</span>gn_af,</a>
+<a class="sourceLine" id="cb69-15" title="15">        <span class="dt">HGVSp =</span> x<span class="op">$</span>HGVSp_Short,</a>
+<a class="sourceLine" id="cb69-16" title="16">        <span class="dt">Samp =</span> x<span class="op">$</span>Tumor_Sample_Barcode,</a>
+<a class="sourceLine" id="cb69-17" title="17">        <span class="dt">VAF =</span> x<span class="op">$</span>VAF.TUMOR</a>
+<a class="sourceLine" id="cb69-18" title="18">    )</a>
+<a class="sourceLine" id="cb69-19" title="19">})</a>
+<a class="sourceLine" id="cb69-20" title="20"></a>
+<a class="sourceLine" id="cb69-21" title="21"><span class="co"># Filter for variants in target bed regions and of specific consequence types</span></a>
+<a class="sourceLine" id="cb69-22" title="22">intersect_bed &lt;-<span class="st"> </span><span class="kw">lapply</span>(maf_granges_list, <span class="cf">function</span>(gr) <span class="kw">findOverlaps</span>(gr, TargetBedGR))</a>
+<a class="sourceLine" id="cb69-23" title="23">intersect_consequence &lt;-<span class="st"> </span><span class="kw">lapply</span>(maf_granges_list, <span class="cf">function</span>(gr) {</a>
+<a class="sourceLine" id="cb69-24" title="24">    <span class="kw">unlist</span>(<span class="kw">sapply</span>(coding_vars, <span class="cf">function</span>(pattern) <span class="kw">grep</span>(pattern, gr<span class="op">$</span>Consequence)))</a>
+<a class="sourceLine" id="cb69-25" title="25">})</a>
+<a class="sourceLine" id="cb69-26" title="26"></a>
+<a class="sourceLine" id="cb69-27" title="27">maf_granges_filtered &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(maf_granges_list), <span class="cf">function</span>(i) {</a>
+<a class="sourceLine" id="cb69-28" title="28">    indices &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">c</span>(<span class="kw">queryHits</span>(intersect_bed[[i]]), intersect_consequence[[i]]))</a>
+<a class="sourceLine" id="cb69-29" title="29">    maf_granges_list[[i]][indices]</a>
+<a class="sourceLine" id="cb69-30" title="30">})</a>
+<a class="sourceLine" id="cb69-31" title="31"></a>
+<a class="sourceLine" id="cb69-32" title="32"><span class="co"># Overall filtering for FinalSomaticList</span></a>
+<a class="sourceLine" id="cb69-33" title="33">all_variants_gr &lt;-<span class="st"> </span><span class="kw">GRanges</span>(</a>
+<a class="sourceLine" id="cb69-34" title="34">    <span class="dt">seqnames =</span> FinalSomaticList<span class="op">$</span>CHR,</a>
+<a class="sourceLine" id="cb69-35" title="35">    <span class="dt">ranges =</span> <span class="kw">IRanges</span>(<span class="dt">start =</span> FinalSomaticList<span class="op">$</span>POS, <span class="dt">end =</span> FinalSomaticList<span class="op">$</span>POS <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb69-36" title="36">)</a>
+<a class="sourceLine" id="cb69-37" title="37">overlap_target &lt;-<span class="st"> </span><span class="kw">findOverlaps</span>(all_variants_gr, TargetBedGR)</a>
+<a class="sourceLine" id="cb69-38" title="38">final_somatic_list_filt &lt;-<span class="st"> </span>FinalSomaticList[<span class="kw">queryHits</span>(overlap_target), ]</a>
+<a class="sourceLine" id="cb69-39" title="39"></a>
+<a class="sourceLine" id="cb69-40" title="40"><span class="co"># Summarize mutation counts</span></a>
+<a class="sourceLine" id="cb69-41" title="41">n_total &lt;-<span class="st"> </span><span class="kw">sapply</span>(maf_granges_filtered, length)</a>
+<a class="sourceLine" id="cb69-42" title="42"></a>
+<a class="sourceLine" id="cb69-43" title="43"><span class="co"># Coding mutation counts by type</span></a>
+<a class="sourceLine" id="cb69-44" title="44">coding_counts &lt;-<span class="st"> </span><span class="kw">sapply</span>(maf_granges_filtered, <span class="cf">function</span>(gr) {</a>
+<a class="sourceLine" id="cb69-45" title="45">    <span class="kw">sapply</span>(coding_vars, <span class="cf">function</span>(pattern) <span class="kw">length</span>(<span class="kw">grep</span>(pattern, gr<span class="op">$</span>Consequence)))</a>
+<a class="sourceLine" id="cb69-46" title="46">})</a>
+<a class="sourceLine" id="cb69-47" title="47"></a>
+<a class="sourceLine" id="cb69-48" title="48"><span class="co"># Indel counts</span></a>
+<a class="sourceLine" id="cb69-49" title="49">indel_counts &lt;-<span class="st"> </span><span class="kw">sapply</span>(maf_granges_filtered, <span class="cf">function</span>(gr) {</a>
+<a class="sourceLine" id="cb69-50" title="50">    <span class="kw">sum</span>(<span class="kw">nchar</span>(gr<span class="op">$</span>ALT) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="kw">nchar</span>(gr<span class="op">$</span>REF) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb69-51" title="51">})</a>
+<a class="sourceLine" id="cb69-52" title="52"></a>
+<a class="sourceLine" id="cb69-53" title="53"><span class="co"># Combine statistics for plotting</span></a>
+<a class="sourceLine" id="cb69-54" title="54">summary_stats &lt;-<span class="st"> </span><span class="kw">rbind</span>(</a>
+<a class="sourceLine" id="cb69-55" title="55">    coding_counts,</a>
+<a class="sourceLine" id="cb69-56" title="56">    <span class="dt">indel =</span> indel_counts,</a>
+<a class="sourceLine" id="cb69-57" title="57">    <span class="dt">total_filtered =</span> n_total</a>
+<a class="sourceLine" id="cb69-58" title="58">)</a>
+<a class="sourceLine" id="cb69-59" title="59"><span class="kw">colnames</span>(summary_stats) &lt;-<span class="st"> </span><span class="kw">names</span>(FinalSomatic)</a>
+<a class="sourceLine" id="cb69-60" title="60"></a>
+<a class="sourceLine" id="cb69-61" title="61"><span class="co"># Prepare data for plotting</span></a>
+<a class="sourceLine" id="cb69-62" title="62">summary_melted &lt;-<span class="st"> </span><span class="kw">melt</span>(summary_stats)</a>
+<a class="sourceLine" id="cb69-63" title="63">summary_melted &lt;-<span class="st"> </span>summary_melted[<span class="kw">order</span>(summary_melted<span class="op">$</span>value, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ]</a>
+<a class="sourceLine" id="cb69-64" title="64"></a>
+<a class="sourceLine" id="cb69-65" title="65"><span class="co"># Order samples by total variants</span></a>
+<a class="sourceLine" id="cb69-66" title="66">sample_order &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">as.character</span>(summary_melted<span class="op">$</span>Var2))</a>
+<a class="sourceLine" id="cb69-67" title="67">summary_melted<span class="op">$</span>Var2 &lt;-<span class="st"> </span><span class="kw">factor</span>(summary_melted<span class="op">$</span>Var2, <span class="dt">levels =</span> sample_order)</a>
+<a class="sourceLine" id="cb69-68" title="68">summary_melted<span class="op">$</span>Alive_edited &lt;-<span class="st"> </span>SampleIDs<span class="op">$</span>Alive_edited[<span class="kw">match</span>(summary_melted<span class="op">$</span>Var2, SampleIDs<span class="op">$</span>SAMPLE_ID)]</a>
+<a class="sourceLine" id="cb69-69" title="69"></a>
+<a class="sourceLine" id="cb69-70" title="70"><span class="kw">ggplot</span>(summary_melted, <span class="kw">aes</span>(<span class="dt">x =</span> Var2, <span class="dt">y =</span> value, <span class="dt">col =</span> Var1)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-71" title="71"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-72" title="72"><span class="st">    </span><span class="kw">facet_grid</span>(Var1 <span class="op">~</span><span class="st"> </span>., <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-73" title="73"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;No. variants&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-74" title="74"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-75" title="75"><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-76" title="76"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb69-77" title="77"><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Filtered: panel genes only&quot;</span>)</a></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:filteredMut"></span>
+<img src="_main_files/figure-html/filteredMut-1.pdf" alt="Summary of mutations following filtering" width="768" />
+<p class="caption">
+Figure 9.1: Summary of mutations following filtering
+</p>
+</div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1"></a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="co"># Add compatibility aliases for downstream chunks</span></a>
+<a class="sourceLine" id="cb70-3" title="3">Maf2GRangesFiltgn &lt;-<span class="st"> </span>maf_granges_filtered</a>
+<a class="sourceLine" id="cb70-4" title="4">TotGn &lt;-<span class="st"> </span>n_total</a>
+<a class="sourceLine" id="cb70-5" title="5">FinalSomaticListfilt &lt;-<span class="st"> </span>final_somatic_list_filt</a></code></pre></div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="evaluate-consenus-driver-events.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary-of-somatic-variants.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

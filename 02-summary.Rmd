@@ -1,0 +1,318 @@
+# Summary of tools
+
+## R libraries
+
+The following libraries are required for this to run:
+
+```{r, echo=T}
+library(matrixStats)
+library(yaml)
+library(ggplot2)
+library(ggrepel)
+library(reshape2)
+library(DT)
+library(kableExtra)
+library(GenomicFeatures)
+library(RColorBrewer)
+library(gplots)
+library(GSEABase)
+library(copynumber)
+library(readxl)
+library(survival)
+library(forestplot)
+# library(YAPSA)
+library(EGSEA)
+library(org.Hs.eg.db)
+library(ggbeeswarm)
+library(dplyr)
+library(BSgenome.Hsapiens.UCSC.hg19)
+hs <- org.Hs.eg.db
+source("scripts/GenomeLocationPlot.R")
+source("scripts/CalcCNVs.R")
+source("scripts/ContingencyTablePlot.R")
+source("scripts/Process_for_MutPanning.R")
+AllDat <- read_yaml("input_data.yml")
+```
+
+## Analysis Tools
+
+Summary:
+
+Process | Tools
+--------|------------
+Alignment | bwa-mem and Novosort
+QC | Picard metrics
+Tumor SNV | Strelka, Vardict, Mutect2
+Germline SNV | Haplotypecaller, Vardict
+SNV Annotations | VEP
+CNV | cnvkit
+Ploidy & purity | Gentien
+
+## Annotation data
+
+### Target Bed 
+
+Note a targeted panel was used for this analysis, which is loaded into the variable `TargetBed`
+
+```{r}
+TargetBed <- read.delim(AllDat$Annot$Bed, header = F, sep = "\t")
+TargetBedGR <- GRanges(seqnames = TargetBed$V1, ranges = IRanges(start = TargetBed$V2, end = TargetBed$V3), Gene = TargetBed$V4)
+TargetBedGR$width <- width(TargetBedGR)
+genesB <- unique(TargetBed$V4)
+genesB2 <- genesB[-grep("_[0-9]+", genesB)]
+```
+
+There are `r length(unique(TargetBed$V4))` targets and `r nrow(TargetBed)` intervals in this panel featuring `r length(genesB2)`.
+
+Below is a summary table of chromosomal locations and genes in close proximity (using a sliding window of 10MB):
+
+```{r}
+Windows <- GenomeLocationSeg(AllDat$Annot$Bed, AllDat$Annot$HgChr, windsize = 1E7)
+WindowList <- Windows[[1]]
+BedList <- Windows[[2]]
+WindowM <- melt(WindowList)
+colnames(WindowM) <- c("Chr", "Start", "End", "Width", "Strand", "NGenes", "Genes", "Site", "Col")
+DT::datatable(WindowM[which(WindowM$Genes != ""), c("Chr", "Start", "End", "Genes")], rownames = F, class = "cell-border stripe", extensions = "Buttons", options = list(dom = "Bfrtip", buttons = c("csv", "excel")))
+
+WindowPlot(WindowM, "NGenes")
+```
+
+### Cancer Gene Census
+
+The cancer gene census was downloaded from [cosmic](https://cancer.sanger.ac.uk/cosmic/download). This can be loaded to filter out oesophagael specific genes. There are two tables loaded: `CmcOesoph` which is an Oseophageal specific Cosmic List, and `CmcHallmark` which is  List of Cosmic Hallmark genes
+
+```{r cload}
+CosmicList <- read.csv(AllDat$Annot$CancerCensus)
+CmcOesoph <- CosmicList[grep("oesoph", CosmicList$Tumour.Types.Somatic.), ]
+CmcHallmark <- CosmicList[unique(c(
+     grep("oesoph", CosmicList$Tumour.Types.Somatic.),
+     which(CosmicList$Hallmark == "Yes")
+)), ]
+```
+
+Pan-TCGA pathways, extracted from [pathway mapper](https://github.com/iVis-at-Bilkent/pathway-mapper), and used to visualise abberant pathways in cbioportal is saved in the variable `TCGApathways`
+
+```{r}
+TCGApathways <- read.csv(AllDat$Annot$TCGApathway, stringsAsFactors = F)
+tmpnam <- colnames(TCGApathways)
+TCGApathways <- lapply(1:ncol(TCGApathways), function(x) setdiff(unique(TCGApathways[, x]), ""))
+names(TCGApathways) <- tmpnam
+```
+
+<!--
+### GeneSets and Ontologies
+
+Currently not being loaded... using Hallmark pathway analysis?
+
+```{r, eval=T}
+PathInc2 <- getGmt(
+     con = "annot/c2.cp.v7.4.symbols.gmt", geneIdType = SymbolIdentifier(),
+     collectionType = BroadCollection(category = "c2")
+)
+
+PathInH <- getGmt(
+     con = "annot/h.all.v7.4.symbols.gmt", geneIdType = SymbolIdentifier(),
+     collectionType = BroadCollection(category = "h")
+)
+```
+-->
+
+# Data
+
+All external dependencies and data files are summarised in the following yaml file:
+
+```{r}
+kable(unlist(AllDat), col.names = "Summary of inputs")
+```
+
+## Patient Samples
+
+Below is a list of the samples used in this analysis and their clinical information saved in the variable `SampleIDs`.
+
+Need to factor specific inputs for later survival analysis
+
+```{r datasumm}
+SampleIDs <- read.delim(AllDat$SampleList, sep = "\t")
+SampleIDs$Gender.Male.1..F.0 <- factor(SampleIDs$Gender.Male.1..F.0)
+# SampleIDs$Cancer.Location.By.Pathologist=factor(SampleIDs$Cancer.Location.By.Pathologist)
+SampleIDs$Grade <- factor(SampleIDs$Grade, levels = c("Poorly diff", "Medium", "Highly diff", "Mucinous"))
+SampleIDs$Stage <- factor(SampleIDs$Stage)
+SampleIDs$pT <- factor(SampleIDs$pT)
+SampleIDs$pN <- factor(SampleIDs$pN)
+SampleIDs$pM <- factor(SampleIDs$pM)
+SampleIDs$Margin.status...R0.R2 <- factor(SampleIDs$Margin.status...R0.R2)
+SampleIDs$Stage <- factor(substr(SampleIDs$AJCC_8, 1, 1))
+SampleIDs$Alive[which(SampleIDs$Alive == T)] <- "Alive"
+SampleIDs$Alive[which(SampleIDs$Alive == 0)] <- "Deceased"
+SampleIDs$Location <- factor(SampleIDs$Cancer.Location.By.Pathologist) # SampleIDs$Cancer.Location.By.Pathologist
+SampleIDs$Outcome[which(SampleIDs$Outcome == "")] <- NA
+SampleIDs$Age.at.op <- as.numeric(SampleIDs$Age.at.op)
+SampleIDs$OutCol <- factor(SampleIDs$Outcome)
+levels(SampleIDs$OutCol) <- c("grey75", "darkcyan", "red", "forestgreen", "darkorange")
+```
+
+There are `r nrow(SampleIDs)` samples in this cohort.
+
+The location of these tumors are either the cardia (near stomach, Siewert II) or distal esophagus (Siewert I), locations where EAC are more common, and these have all been classified as adenocarcinomas by pathology (EAC).
+
+## Somatic Single Nucleotide Variants
+
+Somatic variants were either called with:
+
+* strelka where matched normal was present to create `StTab1`
+* mutect2 `M2Tab1`
+* vardict `varGTab1`
+
+```{r variantOverview}
+########### LOAD STRELKA DATA
+
+StFiles <- dir(AllDat$strelka)
+
+StrelkaAll <- lapply(StFiles, function(x) read.delim(paste0(AllDat$strelka, "/", x), sep = "\t"))
+
+namIdx <- sapply(strsplit(StFiles, "_|.maf"), function(x) x[2])
+
+names(StrelkaAll) <- SampleIDs$SAMPLE_ID[match(namIdx, SampleIDs$SAMPLE_ID)]
+meltStrelkaAll <- melt(StrelkaAll, measure.vars = "DISTANCE")
+
+cNames <- c("CHROM", "POS", "REF", "ALT", "STRAND", "Hugo_Symbol", "cadd_phred", "HGVSp_Short", "Consequence", "Tumor_Sample_Barcode", "gn_af", "nAlt.TUMOR", "nTot.TUMOR", "VAF.TUMOR", "mgrb_af")
+Tab1 <- meltStrelkaAll[, match(cNames, colnames(meltStrelkaAll))]
+Tab1$gn_af <- round(Tab1$gn_af, 2)
+
+StTab1 <- Tab1
+
+########### LOAD MUTECT DATA
+
+StFiles <- dir(AllDat$Mutect2)
+
+mutect2All <- lapply(StFiles, function(x) read.delim(paste0(AllDat$Mutect2, "/", x), sep = "\t"))
+
+namIdx <- sapply(strsplit(StFiles, "_|.maf"), function(x) x[2])
+
+names(mutect2All) <- SampleIDs$SAMPLE_ID[match(namIdx, SampleIDs$SAMPLE_ID)]
+meltmutect2All <- melt(mutect2All, measure.vars = "DISTANCE")
+
+cNames <- c("CHROM", "POS", "REF", "ALT", "Hugo_Symbol", "cadd_phred", "HGVSp_Short", "Consequence", "gn_af", "X1k_af", "mgrb_af", "max_af", "PolyPhen", "STRAND", "nAlt.TUMOR", "nTot.TUMOR", "VAF.TUMOR", "nAlt.NORMAL", "nTot.NORMAL", "VAF.NORMAL", "Tumor_Sample_Barcode")
+Tab1 <- meltmutect2All[, match(cNames, colnames(meltmutect2All))]
+Tab1$gn_af <- round(Tab1$gn_af, 2)
+
+M2Tab1 <- Tab1
+
+########### LOAD VARDICT DATA
+
+VDFiles <- dir(AllDat$vardict)
+
+varAll <- lapply(VDFiles, function(x) read.delim(paste0(AllDat$vardict, "/", x), sep = "\t"))
+
+namIdx <- sapply(strsplit(VDFiles, "_|.maf"), function(x) x[2])
+
+names(varAll) <- SampleIDs$SAMPLE_ID[match(namIdx, SampleIDs$SAMPLE_ID)]
+meltvdAll <- melt(varAll, measure.vars = "DISTANCE")
+
+
+cNames <- c("CHROM", "POS", "REF", "ALT", "Hugo_Symbol", "cadd_phred", "HGVSp_Short", "Consequence", "gn_af", "X1k_af", "mgrb_af", "max_af", "PolyPhen", "STRAND", "nAlt.TUMOR", "nTot.TUMOR", "VAF.TUMOR", "nAlt.NORMAL", "nTot.NORMAL", "VAF.NORMAL", "Tumor_Sample_Barcode")
+GTab1 <- meltvdAll[, match(cNames, colnames(meltvdAll))]
+GTab1$gn_af <- round(GTab1$gn_af, 2)
+
+# Filter out variants which have a gnomad frequency of greater than 75% in gnomad and mgrb
+tx2 <- which(GTab1$gn_af > 0.75 | GTab1$mgrb_af > 0.75)
+
+varGTab1 <- GTab1[-tx2, ]
+```
+
+
+## Germline SN Variants
+
+Germline variants were either called with HaplotypeCaller (`HCTab1`) or Vardict (`GTab1`). Both were annotated with VEP
+
+```{r}
+# Haplotype caller here
+VDFiles <- dir(AllDat$HCcaller)
+
+hcAll <- lapply(VDFiles, function(x) read.delim(paste0(AllDat$HCcaller, "/", x), sep = "\t"))
+
+namIdx <- sapply(strsplit(VDFiles, "_|.maf"), function(x) x[7])
+
+names(varAll) <- namIdx ## SampleIDs$SAMPLE_ID[match(namIdx, SampleIDs$SAMPLE_ID)]
+melthcAll <- melt(hcAll, measure.vars = "DISTANCE")
+
+
+cNames <- c("CHROM", "POS", "ID", "REF", "ALT", "Hugo_Symbol", "cadd_phred", "HGVSp_Short", "Consequence", "L1", "gn_af", "X1k_af", "mgrb_af", "max_af", "PolyPhen", "cadd_phred.1", "DOMAINS", "CLIN_SIG", "STRAND", "nAlt.NORMAL", "nTot.NORMAL", "VAF.NORMAL", "Tumor_Sample_Barcode")
+HCTab1 <- melthcAll[, match(cNames, colnames(melthcAll))]
+HCTab1$gn_af <- round(HCTab1$gn_af, 2)
+# HCTab1$END=HCTab1$POS+mVals-1
+# HCTab1$Variant_Type=ifelse(mVals==1, "SNP",ifelse(a1>a2, "DEL", "INS"))
+
+# find the deleterious consequences?
+# # enter the types of variants we want to report
+# CodingVar=c("stop", "miss", "frameshift", "prime")
+# delCons=unlist(sapply(CodingVar, function(x) grep(x, GTab1$Consequence)))
+
+# Load vardict results here
+
+VDFiles <- dir(AllDat$vardictGermline)
+
+varAll <- lapply(VDFiles, function(x) read.delim(paste0(AllDat$vardictGermline, "/", x), sep = "\t"))
+
+namIdx <- sapply(strsplit(VDFiles, "_|.maf"), function(x) x[2])
+
+names(varAll) <- namIdx ## SampleIDs$SAMPLE_ID[match(namIdx, SampleIDs$SAMPLE_ID)]
+meltvarAll <- melt(varAll, measure.vars = "DISTANCE")
+
+## save this data table\
+# a1=nchar(meltvarAll$REF)
+# a2=nchar(meltvarAll$ALT)
+# mVals=rowMaxs(cbind(a1, a2))
+
+cNames <- c("CHROM", "POS", "ID", "REF", "ALT", "Hugo_Symbol", "cadd_phred", "HGVSp_Short", "Consequence", "L1", "gn_af", "X1k_af", "mgrb_af", "max_af", "PolyPhen", "cadd_phred", "CLIN_SIG", "STRAND", "nAlt.NORMAL", "nTot.NORMAL", "VAF.NORMAL", "Tumor_Sample_Barcode")
+
+
+GTab1 <- meltvarAll[, match(cNames, colnames(meltvarAll))]
+GTab1$gn_af <- round(GTab1$gn_af, 2)
+```
+
+
+## CNVs
+
+* Note CNVkit calls as follows: https://cnvkit.readthedocs.io/en/stable/pipeline.html#call
+
+* Normals are combined to create a panel of normals for comparisons, but calls were conducted on a single-sample level, reported as `CNVlog2`
+* LOH was inferred by gentian and loaded as `lohInfo`
+
+```{r CNVkit}
+CNVfiles <- dir(AllDat$CNVkit)
+
+CNVlog2 <- lapply(CNVfiles, function(x) read.delim(paste0(AllDat$CNVkit, "/", x), sep = "\t"))
+namIdx <- sapply(strsplit(CNVfiles, "_|-gainloss.tsv"), function(x) x[1])
+# t2=match(gsub("-", ".", namIdx), SampleIDs$SAMPLE_ID)
+names(CNVlog2) <- SampleIDs$SAMPLE_ID[match(namIdx, sapply(strsplit(SampleIDs$SAMPLE_ID, "\\."), function(x) x[1]))]
+
+# Add CNV calls at a gene level
+pathview <- "data/cnv_genes_gentian/"
+filesIn <- dir(pathview)
+dnaSegGentian <- lapply(paste(pathview, filesIn, sep = ""), function(x) read.csv(x))
+names(dnaSegGentian) <- sapply(dnaSegGentian, function(x) x$Sampleid[1])
+```
+
+
+```{r loh}
+loh <- dir(AllDat$loh)
+
+lohInfo <- lapply(loh, function(x) read.csv(paste0(AllDat$loh, "/", x)))
+names(lohInfo) <- sapply(strsplit(loh, "_"), function(x) x[1])
+```
+
+
+## Estimates of purity
+
+Purity was estimated using PureCN. Below is a plot of the inferred ploidy compared to inferred purity across the cohort in the variable `pinfo`
+
+```{r loadpurity}
+pfiles <- dir(AllDat$purity)
+pinfo <- sapply(pfiles, function(x) read.csv(paste0(AllDat$purity, "/", x)))
+colnames(pinfo) <- SampleIDs$SAMPLE_ID[match(unlist(strsplit(colnames(pinfo), ".csv")), sapply(strsplit(SampleIDs$SAMPLE_ID, "\\."), function(x) x[1]))]
+
+plot(unlist(pinfo["Purity", ]), unlist(pinfo["Ploidy", ]),
+     ylab = "inferred ploidy", xlab = "inferred purity"
+)
+```

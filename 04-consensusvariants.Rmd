@@ -1,0 +1,417 @@
+# Evaluate Consensus calls
+
+## Germline Variants
+
+Two variant callers are used: HaplotypeCaller (HC, left) and Vardict (VD, right).
+
+Before and filtering, we compare:
+
+* **Variant Allele Frequency (VAF)** - There should be an approximate bimodal distribution with centred around 0.5 (heterozygous) or 1 (homozygous). (Note: many homozygous variants are known SNPs, following filtering, most variants are heterozygous)
+* **Variant Allele Frequency (VAF)** - the number of supporting alternate reads at the site 
+
+
+```{r processGermlineVars}
+## do a quick assessment of HC variants and Vardict variants:
+par(mfrow = c(2, 2))
+hist(HCTab1$VAF.NORMAL, main = "VAF HC")
+hist(GTab1$VAF.NORMAL, main = "VAF Var")
+hist(HCTab1$nAlt.NORMAL, main = "nAlt HC")
+hist(GTab1$nAlt.NORMAL, main = "nAlt Var")
+```
+
+Also compare the variant frequencies in gnomad and MGRB. Note that these range from 0 to 1 since all variants are called irrespective of whether it is a common variant or not.
+
+```{r}
+par(mfrow = c(2, 2))
+hist(HCTab1$gn_af, main = "gnomad HC")
+hist(GTab1$gn_af, main = "gnomad Var")
+hist(HCTab1$mgrb_af, main = "mgrb HC")
+hist(GTab1$mgrb_af, main = "mgrb Var")
+```
+
+**We apply the following thresholds:**
+
+* MGRB OR GNOMAD allelic frequency of 1\% or less (consider NA values as 0)
+* At least 5 reads supporting each variant
+* Variant in a coding region (this includes 5'UTR and 3'UTR regions and splice variants)
+* Present in both Haplotype caller and Vardict
+* Exclude the 6 samples which failed sequencing QC
+
+This data is saved in the final variable `FinalGermlineList`
+
+```{r}
+FREQ_CUTOFF <- 0.01
+CODING_TERMS <- c(
+  "stop", "miss", "frameshift", "prime",
+  "splice[a|d|r]", "protein", "coding_sequence"
+)
+
+# Find all unique variants
+HCind <- variant_key(HCTab1)
+VDind <- variant_key(GTab1)
+
+## Merge all samples together and filter out gnomad variants of a particular frequency:
+FinalGermlineList <- HCTab1[which(HCind %in% VDind), ]
+
+# Make a note of common genes - these could potentially be germline
+GermSumm <- paste(FinalGermlineList$CHROM, FinalGermlineList$POS)
+Xa <- table(GermSumm)
+PotentialGermlineGene <- names(Xa)[which(Xa > 5)]
+
+## Remove failed samples
+FinalGermlineList <- FinalGermlineList[
+  !(FinalGermlineList$Tumor_Sample_Barcode %in% FAILED_SAMPLES),
+]
+
+## Frequency filter
+FinalGermlineList <- af_filter(FinalGermlineList, FREQ_CUTOFF)
+
+## Annotate the variants which are functional/coding
+FinalGermlineList$Functional <- grepl(
+  paste(CODING_TERMS, collapse = "|"),
+  FinalGermlineList$Consequence
+)
+```
+
+We can visualise the VAF, nALT, gnomad and mgrb population freq distrbutions in this merged dataset compared to the orignal data frames:
+
+```{r}
+par(mfrow = c(2, 2))
+boxplot(HCTab1$VAF.NORMAL, GTab1$VAF.NORMAL, FinalGermlineList$VAF.NORMAL, main = "VAF", names = c("HC1", "VD1", "Combined"))
+boxplot(HCTab1$nAlt.NORMAL, GTab1$nAlt.NORMAL, FinalGermlineList$VAF.NORMAL, main = "nALT", names = c("HC1", "VD1", "Combined"), log = "y")
+boxplot(HCTab1$gn_af, GTab1$gn_af, FinalGermlineList$gn_af, main = "gn_AF", names = c("HC1", "VD1", "Combined"))
+boxplot(HCTab1$mgrb_af, GTab1$mgrb_af, FinalGermlineList$mgrb_af, main = "MGRB_AF", names = c("HC1", "VD1", "Combined"))
+```
+
+Finally, consistency between the two callers:
+
+* red: number of variants pre-filtering
+* blue : variants remaining after gnomad filtering
+* purple : final number of variants taking into account coding only variants
+* grey: final list
+
+```{r GermlineOutputBars}
+samples_norm <- sort(na.omit(SampleIDs$NORMAL_ID))
+
+HCNvar <- table(HCTab1$Tumor_Sample_Barcode)
+VDNvar <- table(GTab1$Tumor_Sample_Barcode)
+
+overlap_counts <- count_overlap(
+  HCind, HCTab1$Tumor_Sample_Barcode,
+  VDind, GTab1$Tumor_Sample_Barcode,
+  samples_norm
+)
+
+TableInts <- data.frame(
+  Sample = samples_norm,
+  HCOrig = as.numeric(as.character(HCNvar[samples_norm])),
+  VardictOrig = as.numeric(as.character(VDNvar[samples_norm])),
+  Overlap = overlap_counts,
+  stringsAsFactors = FALSE
+)
+
+TableInts[is.na(TableInts)] <- 0
+
+final_counts <- table(FinalGermlineList$Tumor_Sample_Barcode)
+
+TableInts$Final <- as.numeric(as.character(final_counts[TableInts$Sample]))
+TableInts$Final[is.na(TableInts$Final)] <- 0
+
+# VDNvar=table(FinalGermlineList$Tumor_Sample_Barcode)
+# midx=match(names(VDNvar), TableInts$HCOrig.Var1)
+# TableInts$Final=0
+# TableInts$Final[midx]=VDNvar
+
+DT::datatable(TableInts)
+
+barplot(
+  t(TableInts[, c("HCOrig", "VardictOrig", "Overlap", "Final")] + 1),
+  beside = TRUE,
+  las    = 2,
+  col    = c("red", "blue", "purple", "grey"),
+  main   = "Number of germline variants identified using HC",
+  log    = "y"
+)
+```
+
+```{r}
+FinalGermline <- split(FinalGermlineList, FinalGermlineList$Tumor_Sample_Barcode)
+
+GRangeGerm <- lapply(FinalGermline, function(x) {
+  GRanges(
+    seqnames = x$CHROM,
+    ranges = IRanges(x$POS, x$POS),
+    loh = NA, TumourCN = NA
+  )
+})
+
+names(GRangeGerm) <- sub("\\..*", "", names(GRangeGerm))
+
+## reorder the lohInfo into a GRanges object
+GRangeLOH <- lapply(lohInfo, function(x) {
+  GRanges(
+    seqnames = x$chr,
+    ranges   = IRanges(start = x$start, end = x$end),
+    loh      = x$type,
+    C        = x$C
+  )
+})
+
+for (i in seq_along(GRangeGerm)) {
+  germ_name <- names(GRangeGerm)[i]
+  hits <- findOverlaps(GRangeGerm[[i]], GRangeLOH[[germ_name]])
+  GRangeGerm[[i]]$loh[queryHits(hits)] <- GRangeLOH[[germ_name]]$loh[subjectHits(hits)]
+  GRangeGerm[[i]]$TumourCN[queryHits(hits)] <- GRangeLOH[[germ_name]]$C[subjectHits(hits)]
+}
+
+FinalGermline <- Map(
+  cbind,
+  FinalGermline,
+  lapply(GRangeGerm, mcols)
+)
+
+FinalGermlineList <- do.call(rbind, FinalGermline)
+```
+
+Below we can review these variants and print to file:
+
+```{r}
+DT::datatable(FinalGermlineList,
+  rownames = F, class = "cell-border stripe",
+  extensions = "Buttons", options = list(dom = "Bfrtip", buttons = c("csv", "excel"), scrollX = T)
+)
+write.table(FinalGermlineList, file = "output/Final_germline_mutations_test_new.maf", sep = "\t", row.names = F)
+```
+
+
+## Evaluate consensus tumor
+
+Perform the same analysis for the tumor: We want to firstly see the number of variants idnetified with each caller:
+
+```{r SomaticVarsOutput}
+# Create the unique variant keys
+Sind <- variant_key(StTab1)
+M2ind <- variant_key(M2Tab1)
+VTind <- variant_key(varGTab1)
+
+# get the unique tumor ids
+samples_tum <- sort(na.omit(SampleIDs$SAMPLE_ID))
+
+## Compute Pairwise overlaps
+intValSM <- count_overlap(
+  Sind, StTab1$Tumor_Sample_Barcode,
+  M2ind, M2Tab1$Tumor_Sample_Barcode,
+  samples_tum
+)
+
+intValSV <- count_overlap(
+  Sind, StTab1$Tumor_Sample_Barcode,
+  VTind, varGTab1$Tumor_Sample_Barcode,
+  samples_tum
+)
+
+intValMV <- count_overlap(
+  M2ind, M2Tab1$Tumor_Sample_Barcode,
+  VTind, varGTab1$Tumor_Sample_Barcode,
+  samples_tum
+)
+
+# calculate the unique number per sample
+Ssum <- table(StTab1$Tumor_Sample_Barcode)
+M2sum <- table(M2Tab1$Tumor_Sample_Barcode)
+VTsum <- table(varGTab1$Tumor_Sample_Barcode)
+
+# calculate the # muts per sample as well as the filtered number
+TableInts <- data.frame(
+  sample = samples_tum, St = Ssum[samples_tum],
+  M2 = M2sum[samples_tum], Vardict = VTsum[samples_tum],
+  SM = intValSM[samples_tum], SV = intValSV[samples_tum],
+  MV = intValMV[samples_tum]
+)
+TableInts <- TableInts[order(TableInts$sample), ]
+```
+
+Overview of number of variants:
+
+* red: number of Strelka variants
+* blue: Mutect2 variants
+* purple: vardict variants
+
+```{r}
+barplot(t(TableInts[, c(3, 5, 7)]),
+  beside = T, las = 2, col = c("red", "blue", "purple"), names.arg = TableInts$sample, cex.names = 0.75, log = "y",
+  ylab = "number of somatic variants identified"
+)
+```
+
+Overview of the intersection between different methods:
+
+* red: number of Strelka & M2variants
+* blue: Strelka & Vardict
+* purple: M2 & vardict
+
+```{r}
+# intersection between different methods
+barplot(t(TableInts[, c(8:10)]),
+  beside = T, las = 2, col = c("red", "blue", "purple"), names.arg = TableInts$sample, cex.names = 0.75,
+  ylab = "intersection between different methods"
+)
+```
+For mutpanning, keep all the variants
+
+* Variants called by two of strelka, mutect2 or vardict
+
+Below, calculate which variants are called by multiple tools. Then take the mutect variants which have at least 1 other caller, and all vardict variants which are also called by strelka. We save this table as `FinalSomaticList`.
+
+```{r}
+M2Tab1$Mutect <- 1
+M2Tab1$St <- NA
+M2Tab1$VD <- NA
+M2Tab1$St <- as.integer(M2ind %in% Sind)
+M2Tab1$VD <- as.integer(M2ind %in% VTind)
+M2Tab1$RSums <- rowSums(M2Tab1[, c("Mutect", "St", "VD")], na.rm = T)
+
+varGTab1$Mutect <- NA
+varGTab1$St <- NA
+varGTab1$VD <- 1
+varGTab1$St <- as.integer(VTind %in% Sind)
+varGTab1$Mutect <- as.integer(VTind %in% M2ind)
+varGTab1$RSums <- rowSums(varGTab1[, c("Mutect", "St", "VD")], na.rm = T)
+
+FinalSomaticList <- rbind(
+  M2Tab1[M2Tab1$RSums > 1, ],
+  varGTab1[varGTab1$RSums == 2 & varGTab1$Mutect == 0, ]
+)
+```
+
+The final list of somatic variants:
+* filtering out common gnomad or mgrb variants of 0.01 
+* Annotate whether a variant is **potential germline** - the tumour has a high allele fraction (50\%+) AND the variant is detected in the GermlineList. OR VAF which are too high in non-matched normal samples (These would be likely 70\% or lower purity, High VAF of 80+ are possibly germline variants)
+* Annotate whether a variant is potential **Normal expansion** - the variant is detected at a very low frequency in the corresponding normal sample, but high in the tumour 
+
+
+```{r}
+FinalSomaticList <- af_filter(FinalSomaticList, FREQ_CUTOFF)
+
+## Create a column for "potential germline", or normal expansion
+isPotentialGermline <- (paste(FinalSomaticList$CHROM, FinalSomaticList$POS) %in% PotentialGermlineGene &
+  FinalSomaticList$VAF.TUMOR > 0.5) | (FinalSomaticList$VAF.TUMOR > 0.75)
+
+isNormalExpansion <- FinalSomaticList$VAF.NORMAL < 0.1 &
+  FinalSomaticList$nAlt.NORMAL > 3 &
+  FinalSomaticList$VAF.TUMOR > 0.3
+
+# Assign to columns
+FinalSomaticList$PotentialGermline <- as.integer(isPotentialGermline)
+FinalSomaticList$NormalExpansion <- as.integer(isNormalExpansion)
+```
+
+
+
+```{r}
+FinalSomatic <- split(FinalSomaticList, FinalSomaticList$Tumor_Sample_Barcode)
+
+GRangeSomatic <- lapply(FinalSomatic, function(x) {
+  GRanges(
+    seqnames = x$CHROM,
+    ranges = IRanges(x$POS, x$POS),
+    loh = NA, TumourCN = NA, gene_loh = NA, gene_C = NA
+  )
+})
+
+names(GRangeSomatic) <- sub("\\..*", "", names(GRangeSomatic))
+
+## reorder the lohInfo into a GRanges object
+GRangeLOH <- lapply(lohInfo, function(x) {
+  GRanges(
+    seqnames = x$chr,
+    ranges   = IRanges(start = x$start, end = x$end),
+    loh      = x$type,
+    C        = x$C
+  )
+})
+
+## reorder dnaSegGentian into a GRanges object
+GRangeGentian <- lapply(dnaSegGentian, function(x) {
+  GRanges(
+    seqnames = x$chr,
+    ranges   = IRanges(start = x$start, end = x$end),
+    loh      = x$loh,
+    C        = x$C
+  )
+})
+
+for (i in seq_along(GRangeSomatic)) {
+  germ_name <- names(GRangeSomatic)[i]
+  hits <- findOverlaps(GRangeSomatic[[i]], GRangeLOH[[germ_name]])
+  GRangeSomatic[[i]]$loh[queryHits(hits)] <- GRangeLOH[[germ_name]]$loh[subjectHits(hits)]
+  GRangeSomatic[[i]]$TumourCN[queryHits(hits)] <- GRangeLOH[[germ_name]]$C[subjectHits(hits)]
+
+  if (germ_name %in% names(GRangeGentian)) {
+    hits_gentian <- findOverlaps(GRangeSomatic[[i]], GRangeGentian[[germ_name]])
+    GRangeSomatic[[i]]$gene_loh[queryHits(hits_gentian)] <- GRangeGentian[[germ_name]]$loh[subjectHits(hits_gentian)]
+    GRangeSomatic[[i]]$gene_C[queryHits(hits_gentian)] <- GRangeGentian[[germ_name]]$C[subjectHits(hits_gentian)]
+  }
+}
+
+
+FinalSomatic <- Map(
+  cbind,
+  FinalSomatic,
+  lapply(GRangeSomatic, mcols)
+)
+
+FinalSomaticList <- do.call(rbind, FinalSomatic)
+```
+
+Below we can review these variants and print to file:
+
+```{r}
+DT::datatable(FinalSomaticList,
+  rownames = F, class = "cell-border stripe",
+  extensions = "Buttons", options = list(dom = "Bfrtip", buttons = c("csv", "excel"), scrollX = T)
+)
+write.table(FinalSomaticList, file = "output/Final_somatic_mutations_test_new.maf", sep = "\t", row.names = F)
+```
+
+
+## Summary of number of variants per sample
+
+```{r summary-variants}
+SomVal <- summary(factor(FinalSomaticList$Tumor_Sample_Barcode, levels = SampleIDs$SAMPLE_ID))
+GermVal <- summary(factor(FinalGermlineList$Tumor_Sample_Barcode, levels = SampleIDs$NORMAL_ID))
+
+names(SomVal) <- sapply(strsplit(names(SomVal), "\\."), function(x) x[1])
+names(GermVal) <- sapply(strsplit(names(GermVal), "\\."), function(x) x[1])
+
+dfSumm <- data.frame(
+  Sample = names(SomVal), Somatic = SomVal, Germ = GermVal[match(names(SomVal), names(GermVal))], Alive_edited = S2$Alive_edited[match(names(SomVal), S2$Name)],
+  FollowUp = S2m$Follow.up.Survival..months.[match(names(SomVal), S2m$Name)],
+  Alive = S2m$Alive[match(names(SomVal), S2m$Name)]
+)
+
+mdfSumm <- melt(dfSumm, measure.vars = c("Somatic", "Germ"))
+mdfSumm$Sample <- factor(mdfSumm$Sample, levels = S2$Name)
+
+nxs <- median(SomVal)
+nxg <- median(GermVal)
+
+highMB <- SampleIDs$SAMPLE_ID[match(names(SomVal)[which(SomVal > 100)], SampleIDs$Name)]
+```
+
+Notes: 
+
+* median number of somatic variants `r nxs`
+* median number of germline variants `r nxg`
+* 5 outlier samples with high number of mutations: These include `r names(SomVal)[which(SomVal>100)]`
+
+```{r summary-barplot}
+ggplot(data = mdfSumm, aes(x = Sample, y = value, col = value)) +
+  geom_bar(stat = "identity") +
+  facet_grid(variable ~ Alive, space = "free_x", scale = "free") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  ggtitle("Survival data: stage colored") +
+  ylab("Number of variants") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  geom_hline(yintercept = c(nxs))
+```

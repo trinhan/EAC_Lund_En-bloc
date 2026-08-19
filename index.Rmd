@@ -1,0 +1,60 @@
+--- 
+title: "oesophageal cohort"
+author: "Anne Trinh"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::gitbook:
+    includes:
+      in_header: header.html
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, collapse = T, cache.lazy = T, warning = F, message = F,
+                      fig.fullwidth=T, fig.width = 8 , dev = "pdf",fig.ext = "pdf")
+```
+
+
+```{=html}
+<script type="text/javascript">
+  // toggle visibility of R source blocks in R Markdown output
+  function toggle_R() {
+    var x = document.getElementsByClassName('r');
+    if (x.length == 0) return;
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d == 'block' || d == '') ? 'none' : 'block';
+    }
+    
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+    }
+    
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Global") elem.value = "Show Global";
+    else elem.value = "Hide Global";
+  }
+
+  document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: fixed; top: 10px; right: 10px; z-index: 200"></input>')
+</script>
+```
+
+# Description
+
+This is a summary of the data in the oesophagael cohort. Details:
+
+* 64 oesophagael adenocarcinomas: 3 without matched normal + 6 germline failed lib prep
+* Locations (for ER cohort): distal oesophagus or cardia
+* Fresh frozen
+* Treatment naive 
+* Sequenced on a targeted panel
+* Treatment: en bloc surgery
+
+
+
+
+
+
+
+
