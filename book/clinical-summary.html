@@ -23,7 +23,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2026-03-24" />
+<meta name="date" content="2026-08-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -573,7 +573,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb15-14" title="14"><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;#1b1616&quot;</span>, <span class="st">&quot;#3182bd&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="kw">brewer.pal</span>(<span class="dv">4</span>, <span class="st">&quot;Greens&quot;</span>), <span class="st">&quot;black&quot;</span>, <span class="kw">brewer.pal</span>(<span class="dv">4</span>, <span class="st">&quot;PuBuGn&quot;</span>), <span class="st">&quot;white&quot;</span>, <span class="st">&quot;grey&quot;</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb15-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb15-16" title="16"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">60</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/Figure1A-1.pdf" width="1152" type="application/pdf" />
+<p><img src="_main_files/figure-html/Figure1A-1.png" width="1152" /></p>
 <p>From top to bottom:</p>
 <ul>
 <li>barplot of the times from follow up after surgery to death: note that all alive patients have a follow-up time of 100+ months. The horizontal line below indicates a follow-up of 60 months, or 5 years. Note that 2 of the high-risk “Alive” patients have survived until just after this point and are in the 60-80 age group.</li>
@@ -629,7 +629,7 @@ The “Alive” patients are roughly evenly distributed between high (9) and low
 <a class="sourceLine" id="cb16-30" title="30"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="ot">NULL</span>, <span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">fill =</span> <span class="st">&quot;tau&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-31" title="31"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-32" title="32"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-45</span>, <span class="dt">hjust =</span> <span class="dv">0</span>))</a></code></pre></div>
-<embed src="_main_files/figure-html/unnamed-chunk-9-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
 <div id="univariate-clinicopathological-association-with-survival-status-fig1b" class="section level2 hasAnchor">
 <h2><span class="header-section-number">4.4</span> Univariate clinicopathological association with survival status (Fig1B)<a href="clinical-summary.html#univariate-clinicopathological-association-with-survival-status-fig1b" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -705,7 +705,7 @@ The “Alive” patients are roughly evenly distributed between high (9) and low
 <a class="sourceLine" id="cb17-62" title="62"><span class="co">## mdata1=allparam[ ,c(&quot;Coeff&quot;, &quot;lower&quot;, &quot;upper&quot;)]</span></a>
 <a class="sourceLine" id="cb17-63" title="63"></a>
 <a class="sourceLine" id="cb17-64" title="64"><span class="kw">forestplot</span>(data1, allparam<span class="op">$</span>Coeff, allparam<span class="op">$</span>lower, allparam<span class="op">$</span>upper, <span class="dt">xlog =</span> T, <span class="dt">boxsize =</span> <span class="fl">0.1</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/Fig1B-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/Fig1B-1.png" width="768" /></p>
 </div>
 <div id="km-plot-of-stage" class="section level2 hasAnchor">
 <h2><span class="header-section-number">4.5</span> KM plot of stage<a href="clinical-summary.html#km-plot-of-stage" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -721,7 +721,7 @@ The “Alive” patients are roughly evenly distributed between high (9) and low
 <a class="sourceLine" id="cb18-3" title="3">  <span class="dt">lty =</span> <span class="kw">c</span>(<span class="st">&quot;solid&quot;</span>, <span class="st">&quot;dashed&quot;</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;forestgreen&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;orange&quot;</span>),</a>
 <a class="sourceLine" id="cb18-4" title="4">  <span class="dt">xlab =</span> <span class="st">&quot;Survival Time (months)&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Overall Survival&quot;</span>, <span class="dt">mark.time =</span> T</a>
 <a class="sourceLine" id="cb18-5" title="5">)</a></code></pre></div>
-<embed src="_main_files/figure-html/unnamed-chunk-10-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="768" /></p>
 </div>
 <div id="clinical-correlates-with-survival-status-fig1c" class="section level2 hasAnchor">
 <h2><span class="header-section-number">4.6</span> Clinical correlates with survival status (Fig1C)<a href="clinical-summary.html#clinical-correlates-with-survival-status-fig1c" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -766,7 +766,7 @@ The “Alive” patients are roughly evenly distributed between high (9) and low
 <a class="sourceLine" id="cb19-31" title="31">allparam<span class="op">$</span>Upper &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(allparam<span class="op">$</span>Upper)</a>
 <a class="sourceLine" id="cb19-32" title="32">allparam<span class="op">$</span>P &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.numeric</span>(allparam<span class="op">$</span>P), <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb19-33" title="33"><span class="kw">forestplot</span>(allparam[, <span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>)], allparam<span class="op">$</span>Coeff, allparam<span class="op">$</span>Lower, allparam<span class="op">$</span>Upper, <span class="dt">xlog =</span> T, <span class="dt">boxsize =</span> <span class="fl">0.1</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/Fig1C-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/Fig1C-1.png" width="768" /></p>
 
 </div>
 </div>

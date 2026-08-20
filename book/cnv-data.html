@@ -23,7 +23,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2026-03-24" />
+<meta name="date" content="2026-08-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -282,7 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb77-12" title="12"><span class="co">## manually </span></a>
 <a class="sourceLine" id="cb77-13" title="13"><span class="kw">plotFreq</span>(<span class="dt">segments=</span>AllDCN,<span class="dt">thres.gain=</span><span class="fl">0.3</span>,<span class="dt">thres.loss=</span><span class="op">-</span><span class="fl">0.3</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">100</span>), <span class="dt">main=</span><span class="st">&quot;oesophagael cohort&quot;</span>)</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:cnv-pop-freq"></span>
-<img src="_main_files/figure-html/cnv-pop-freq-1.pdf" alt="Overview of common sites of gains and losses in the cohort" width="768" />
+<img src="_main_files/figure-html/cnv-pop-freq-1.png" alt="Overview of common sites of gains and losses in the cohort" width="768" />
 <p class="caption">
 Figure 11.1: Overview of common sites of gains and losses in the cohort
 </p>
@@ -302,10 +302,10 @@ Figure 11.1: Overview of common sites of gains and losses in the cohort
 <p>Repeat the above analysis for the three outcome groups - good, poor and intermediate</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"></a>
 <a class="sourceLine" id="cb78-2" title="2"><span class="kw">plotFreq</span>(<span class="dt">segments=</span>AllDCN[ <span class="kw">which</span>(AllDCN<span class="op">$</span>sampleID<span class="op">%in%</span>SampleIDs<span class="op">$</span>SAMPLE_ID[SampleIDs<span class="op">$</span>Alive_edited<span class="op">==</span><span class="st">&quot;Alive&quot;</span>]), ],<span class="dt">thres.gain=</span><span class="fl">0.15</span>,<span class="dt">thres.loss=</span><span class="op">-</span><span class="fl">0.15</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">100</span>), <span class="dt">main=</span><span class="st">&quot;Alive&quot;</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/unnamed-chunk-51-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="768" /></p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1"></a>
 <a class="sourceLine" id="cb79-2" title="2"><span class="kw">plotFreq</span>(<span class="dt">segments=</span>AllDCN[ <span class="kw">which</span>(AllDCN<span class="op">$</span>sampleID<span class="op">%in%</span>SampleIDs<span class="op">$</span>SAMPLE_ID[SampleIDs<span class="op">$</span>Alive_edited<span class="op">==</span><span class="st">&quot;Deceased&quot;</span>]), ],<span class="dt">thres.gain=</span><span class="fl">0.15</span>,<span class="dt">thres.loss=</span><span class="op">-</span><span class="fl">0.15</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">100</span>), <span class="dt">main=</span><span class="st">&quot;Deceased&quot;</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/unnamed-chunk-51-2.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/unnamed-chunk-51-2.png" width="768" /></p>
 </div>
 <div id="thresholds-for-copy-number" class="section level2 hasAnchor">
 <h2><span class="header-section-number">11.3</span> Thresholds for copy number<a href="cnv-data.html#thresholds-for-copy-number" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -359,7 +359,7 @@ Figure 11.1: Overview of common sites of gains and losses in the cohort
 <a class="sourceLine" id="cb80-38" title="38"><span class="kw">text</span>(<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">4</span>, <span class="st">&quot;homo loss&quot;</span>)</a>
 <a class="sourceLine" id="cb80-39" title="39"><span class="kw">text</span>(<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">1</span>, <span class="st">&quot;het loss&quot;</span>)</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-52"></span>
-<img src="_main_files/figure-html/unnamed-chunk-52-1.pdf" alt="Summary of the distribution of gains and losses relative to segment mean" width="768" />
+<img src="_main_files/figure-html/unnamed-chunk-52-1.png" alt="Summary of the distribution of gains and losses relative to segment mean" width="768" />
 <p class="caption">
 Figure 11.2: Summary of the distribution of gains and losses relative to segment mean
 </p>
@@ -396,7 +396,7 @@ Figure 11.2: Summary of the distribution of gains and losses relative to segment
 <a class="sourceLine" id="cb82-11" title="11"><span class="kw">plot</span>(pinfo[<span class="st">&quot;Purity&quot;</span>, ], Cin3b, <span class="dt">xlab=</span><span class="st">&quot;purity&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;CIN (overall)&quot;</span>, <span class="dt">main=</span><span class="st">&quot;using CN without gene length adjust&quot;</span>,<span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="kw">as.character</span>(colIds))</a>
 <a class="sourceLine" id="cb82-12" title="12"><span class="kw">plot</span>(pinfo[<span class="st">&quot;Purity&quot;</span>, ], Cin1a, <span class="dt">xlab=</span><span class="st">&quot;purity&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;CIN (overall)&quot;</span>, <span class="dt">main=</span><span class="st">&quot;T=0.5 before adjust&quot;</span>,<span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="kw">as.character</span>(colIds))</a>
 <a class="sourceLine" id="cb82-13" title="13"><span class="kw">plot</span>(pinfo[<span class="st">&quot;Purity&quot;</span>, ], Cin3d, <span class="dt">xlab=</span><span class="st">&quot;purity&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;CIN (overall)&quot;</span>, <span class="dt">main=</span><span class="st">&quot;T=0.5, purity  adjust&quot;</span>,<span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="kw">as.character</span>(colIds))</a></code></pre></div>
-<embed src="_main_files/figure-html/cin-calc-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/cin-calc-1.png" width="768" /></p>
 <p>Using a segmented threshold of of 0.5 with purity adjustment shows a fairly even distribution.</p>
 </div>
 <div id="cosmic-specific-genes" class="section level2 hasAnchor">
@@ -430,7 +430,7 @@ Figure 11.2: Summary of the distribution of gains and losses relative to segment
 <a class="sourceLine" id="cb83-26" title="26"><span class="co">##</span></a>
 <a class="sourceLine" id="cb83-27" title="27"><span class="kw">ggplot</span>(AllDCNGene2, <span class="kw">aes</span>(<span class="dt">y=</span>sampleID, <span class="dt">x=</span>gene, <span class="dt">fill=</span>C2))<span class="op">+</span><span class="kw">geom_tile</span>()<span class="op">+</span><span class="kw">facet_grid</span>(Alive_edited<span class="op">~</span>chrom, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">mid=</span><span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">na.value=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</a></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-54"></span>
-<img src="_main_files/figure-html/unnamed-chunk-54-1.pdf" alt="Overview of CNVs of hallmark genes" width="768" />
+<img src="_main_files/figure-html/unnamed-chunk-54-1.png" alt="Overview of CNVs of hallmark genes" width="768" />
 <p class="caption">
 Figure 11.3: Overview of CNVs of hallmark genes
 </p>
@@ -465,7 +465,7 @@ We can load the Inputs from GISTIC to reveal which genes are significantly enric
 <a class="sourceLine" id="cb85-24" title="24"></a>
 <a class="sourceLine" id="cb85-25" title="25"><span class="kw">ggplot</span>(AllDCNGene3, <span class="kw">aes</span>(<span class="dt">y=</span>sampleID, <span class="dt">x=</span>gene, <span class="dt">fill=</span>mean2))<span class="op">+</span><span class="kw">geom_tile</span>()<span class="op">+</span><span class="kw">facet_grid</span>(Alive_edited<span class="op">~</span>chrom, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">mid=</span><span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">na.value=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></a>
 <a class="sourceLine" id="cb85-26" title="26"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</a></code></pre></div>
-<embed src="_main_files/figure-html/gistic-res-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/gistic-res-1.png" width="768" /></p>
 </div>
 <div id="co-amplification-patterns" class="section level2 hasAnchor">
 <h2><span class="header-section-number">11.6</span> Co-amplification patterns<a href="cnv-data.html#co-amplification-patterns" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -473,7 +473,7 @@ We can load the Inputs from GISTIC to reveal which genes are significantly enric
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">TableCNVs=<span class="kw">acast</span>(AllDCNGene2[ ,<span class="kw">c</span>(<span class="st">&quot;sampleID&quot;</span>, <span class="st">&quot;gene&quot;</span>, <span class="st">&quot;C&quot;</span>)], gene<span class="op">~</span>sampleID)</a>
 <a class="sourceLine" id="cb86-2" title="2">NXTable=<span class="kw">cor</span>(<span class="kw">t</span>(TableCNVs))</a>
 <a class="sourceLine" id="cb86-3" title="3"><span class="kw">heatmap.2</span>(NXTable, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;RdBu&quot;</span>)[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/unnamed-chunk-55-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/unnamed-chunk-55-1.png" width="768" /></p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1"></a>
 <a class="sourceLine" id="cb87-2" title="2">cor.test.p &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
 <a class="sourceLine" id="cb87-3" title="3">    FUN &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) <span class="kw">cor.test</span>(x, y)[[<span class="st">&quot;p.value&quot;</span>]]</a>

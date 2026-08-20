@@ -23,7 +23,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2026-03-24" />
+<meta name="date" content="2026-08-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -283,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb20-12" title="12"><span class="kw">barplot</span>(ISstats<span class="op">$</span>MEDIAN_INSERT_SIZE, <span class="dt">names.arg =</span> ISstats<span class="op">$</span>SAMPLE, <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.names=</span><span class="fl">0.6</span>, <span class="dt">main=</span><span class="st">&quot;Median Insert Size&quot;</span>)</a>
 <a class="sourceLine" id="cb20-13" title="13"><span class="kw">barplot</span>(AM_stats<span class="op">$</span>PCT_ADAPTER, <span class="dt">names.arg =</span> AM_stats<span class="op">$</span>Sample, <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.names=</span><span class="fl">0.6</span>,<span class="dt">main=</span><span class="st">&quot;Percent Adapter&quot;</span>)</a>
 <a class="sourceLine" id="cb20-14" title="14"><span class="kw">barplot</span>(Hs_Metrics<span class="op">$</span>MEDIAN_TARGET_COVERAGE, <span class="dt">names.arg=</span> Hs_Metrics<span class="op">$</span>Sample, <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.names=</span><span class="fl">0.6</span>, <span class="dt">main=</span><span class="st">&quot;Median Target Coverage&quot;</span>)</a></code></pre></div>
-<embed src="_main_files/figure-html/wgs-qc-1.pdf" width="768" type="application/pdf" />
+<p><img src="_main_files/figure-html/wgs-qc-1.png" width="768" /></p>
 <p>Note there are 6 problematic samples:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">Problematic=<span class="kw">which</span>(Hs_Metrics<span class="op">$</span>TOTAL_READS<span class="op">&lt;</span><span class="fl">5E6</span>)</a>
 <a class="sourceLine" id="cb21-2" title="2">FAILED_SAMPLES &lt;-<span class="st"> </span>Hs_Metrics<span class="op">$</span>Sample[Problematic]</a>
@@ -293,8 +293,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that there are some problematic samples: S41-087, S42-039, S43-308, S44-075, S45-337, S47-027 which are Germline samples with low sequencing depth. For the time being, exclude this information. Their specific metrics are summarised in the table below:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"></a>
 <a class="sourceLine" id="cb22-2" title="2">DT<span class="op">::</span><span class="kw">datatable</span>(MetricsB)</a></code></pre></div>
-<div id="htmlwidget-c30896c394e7876d7168" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c30896c394e7876d7168">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7"],["S41-087","S42-039","S43-308","S44-075","S45-337","S47-027","Median"],[82766,133610,159010,73806,68872,62136,16138532],[0.762329,0.353047,0.85585,0.576116,0.801033,0.612852,0.988835],[0.015338,0.009244,0.017718,0.009279,0.011962,0.009318,0.045545],[251,255,269,243,251,244,251],[3.6e-05,4.5e-05,0,2.7e-05,5.8e-05,0.000129,6e-06]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sample<\/th>\n      <th>TotalReads<\/th>\n      <th>PctAligned<\/th>\n      <th>PcDup<\/th>\n      <th>InsertSize<\/th>\n      <th>PctAdapter<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-95ea21301709ca1a6eb5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-95ea21301709ca1a6eb5">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7"],["S41-087","S42-039","S43-308","S44-075","S45-337","S47-027","Median"],[82766,133610,159010,73806,68872,62136,16138532],[0.762329,0.353047,0.85585,0.576116,0.801033,0.612852,0.988835],[0.015338,0.009244,0.017718,0.009279,0.011962,0.009318,0.045545],[251,255,269,243,251,244,251],[3.6e-05,4.5e-05,0,2.7e-05,5.8e-05,0.000129,6e-06]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sample<\/th>\n      <th>TotalReads<\/th>\n      <th>PctAligned<\/th>\n      <th>PcDup<\/th>\n      <th>InsertSize<\/th>\n      <th>PctAdapter<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 
 </div>
             </section>
